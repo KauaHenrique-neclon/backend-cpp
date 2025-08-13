@@ -1,0 +1,39 @@
+.navbar {
+  width: 98%;
+  padding: 20px;
+  display: flex;
+  background-color: #3498db;
+}
+
+.nav-container {
+  display: flex;
+}
+
+
+.navbar a {
+  color: #ecf0f1;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 22px;
+  margin-left: 2%;
+  cursor: pointer;
+}
+
+.navbar a:hover{
+    background-color: #176395;
+    color: #ffffff;
+}
+
+
+@media screen and (max-width: 768px) {
+  .NavBar {
+    padding: 10px;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

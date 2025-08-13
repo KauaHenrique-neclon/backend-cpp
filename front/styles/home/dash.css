@@ -1,0 +1,41 @@
+.Dashboard {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-top: 2em;
+    justify-content: space-around;
+}
+
+.Dashboard span {
+    background-color: #ffffff;
+    width: 20em;
+    padding: 15px;
+    height: 8em;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.Dashboard span:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.Dashboard p {
+    margin: 5px 0;
+    font-size: 1.2em;
+    color: #34495e;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+    display: inline-block;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #2980b9;
+}
