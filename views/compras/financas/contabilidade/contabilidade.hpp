@@ -1,5 +1,6 @@
-#ifndef FORNECEDORES_HPP
-#define FORNECEDORES_HPP
+#ifndef CONTABILIDADE_HPP
+#define CONTABILIDADE_HPP
+
 
 #include <Poco/Net/HTTPServerResponse.h>
 #include <Poco/Net/HTTPServerRequest.h>
@@ -11,24 +12,15 @@
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/JSON/Parser.h>
 #include <Poco/JSON/Object.h>
-#include <Poco/RegularExpression.h>
-#include "../../../model/estoque/estoqueModel.hpp"
-#include "../../../session/sessao.hpp"
-#include "../../../middleware/cookie.hpp"
 
-
-class FornecedoresViews{
+class Contabilidade{
 public:
     void handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
-    FornecedoresViews(Session& sess, Cookie& cook) : sessao(sess), cookieMiddleware(cook) {};
-
+    
 private:
-    Session& sessao;
-    Cookie& cookieMiddleware;
     void Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void Get(Poco::Net::HTTPServerResponse& response);
 };
 
 
-
-#endif // FORNECEDORES_HPP
+#endif // CONTABILIDADE_HPP

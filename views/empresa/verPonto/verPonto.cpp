@@ -23,7 +23,7 @@ void VerPontoViews::Get(Poco::Net::HTTPServerResponse& response){
         for (const auto& ponto : pegandoDadosPonto) {
             Poco::JSON::Object obj;
             obj.set("id", ponto.id);
-            obj.set("funcionario_id", ponto.funcionario_id);
+            obj.set("cpf", ponto.cpf);
             obj.set("data", ponto.data);
             obj.set("horaentrada", ponto.horaentrada);
             obj.set("horasaida", ponto.horasaida);

@@ -12,7 +12,7 @@
 class DadosPonto{
 public:
     std::string id;
-    std::string funcionario_id;
+    std::string cpf;
     std::string data;
     std::string horaentrada;
     std::string horasaida;

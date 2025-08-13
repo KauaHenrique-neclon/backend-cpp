@@ -9,6 +9,10 @@ const EntradaPonto = () => {
         tipo: 'entrada',
     });
 
+    const [dadosOkEnvio, setdadosOkEnvio] = useState(null);
+    const [error, setError] = useState(null);
+
+
     const handeleChange = (e) =>{
 
         const {name, value} = e.target;
@@ -30,7 +34,9 @@ const EntradaPonto = () => {
             });
             if(response.ok){
                 const data = await response.json();
-                console.log('Ponto cadastrado com sucesso');
+                setdadosOkEnvio(data);
+                setError(null);
+                console.log('Ponto cadastrado com sucesso', data);
             }else{
                 const errorData = await response.json();
                 console.error('Erro ao cadastrar ponto:', errorData);
@@ -56,8 +62,20 @@ const EntradaPonto = () => {
                required
             />
         </div>
-        <button>Cadastrar Entrada</button>
+        <button type="submit">Cadastrar Entrada</button>
         </form>
+        {dadosOkEnvio && (
+            <div>
+                <h1>Ponto cadastrado com sucesso!</h1>
+                {formDataEntrada}
+            </div>
+        )}
+        {error && (
+            <div>
+                <h1>Erro ao cadastrar ponto:</h1>
+                <p>{error}</p>
+            </div>
+        )}
     </div>
   )
 }
