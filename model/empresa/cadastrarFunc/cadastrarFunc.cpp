@@ -29,3 +29,7 @@ bool ModelCadastrarFuncionario::inserindoFuncionario(const DadosFuncionario& fun
         return false;
     }
 }
+
+ModelCadastrarFuncionario::~ModelCadastrarFuncionario() {
+    delete conn;
+}

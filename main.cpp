@@ -21,6 +21,7 @@
 #include "views/compras/pedidos/pedidos.hpp"
 #include "views/empresa/funcionarios/cadastrarFunc.hpp"
 #include "views/empresa/controlePonto/controlePonto.hpp"
+#include "views/empresa/financas/contabilidade/contabilidade.hpp"
 
 
 using namespace Poco;
@@ -108,29 +109,44 @@ public:
 };
 
 
-class ControleDePontoPage : public HTTPRequest {
+class ControleDePontoPage : public HTTPRequestHandler {
 public:
-    ControleDePontoPage(Session& sessao, Cookie& cookie) : sessao_(sessao), cookie_(cookie) {}
-
-    void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) {
+    void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override {
         try {
-            if (!sessao_.IsAuthenticated()) {
-                response.setStatus(Poco::Net::HTTPServerResponse::HTTP_UNAUTHORIZED);
+            Session sessao;
+            Cookie cookie(sessao);
+            if (!sessao.IsAuthenticated()) {
+                response.setStatus(HTTPServerResponse::HTTP_UNAUTHORIZED);
                 response.send() << "A sessão não está ativa.";
                 return;
             }
-
-            ControleDePontoViews controleDePontoViews(sessao_, cookie_);
+            ControleDePontoViews controleDePontoViews(sessao, cookie);
             controleDePontoViews.handleRequest(request, response);
         } catch (const std::exception& e) {
-            response.setStatus(Poco::Net::HTTPServerResponse::HTTP_INTERNAL_SERVER_ERROR);
+            response.setStatus(HTTPServerResponse::HTTP_INTERNAL_SERVER_ERROR);
             response.send() << "Erro interno do servidor.";
         }
     }
+};
 
-private:
-    Session& sessao_;
-    Cookie& cookie_;
+class ContabilidadePage : public HTTPRequestHandler {
+public:
+    void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override {
+        try {
+            Session sessao;
+            Cookie cookie(sessao);
+            if (!sessao.IsAuthenticated()) {
+                response.setStatus(HTTPServerResponse::HTTP_UNAUTHORIZED);
+                response.send() << "A sessão não está ativa.";
+                return;
+            }
+            ContabilidadeViews contabilidadeViews(sessao, cookie);
+            contabilidadeViews.handleRequest(request, response);
+        } catch (const std::exception& e) {
+            response.setStatus(HTTPServerResponse::HTTP_INTERNAL_SERVER_ERROR);
+            response.send() << "Erro interno do servidor.";
+        }
+    }
 };
 
 
@@ -158,6 +174,8 @@ public:
             return new FornecedoresPage();
         } else if (path == "/pedidos"){
             return new PedidosPage();
+        }else if (path == "/Contabilidade"){
+            return new ContabilidadePage();
         }
         else {
             return;

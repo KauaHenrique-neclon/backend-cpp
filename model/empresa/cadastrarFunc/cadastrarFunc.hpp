@@ -22,6 +22,7 @@ private:
     pqxx::connection* conn;
 public:
     ModelCadastrarFuncionario();
+    ~ModelCadastrarFuncionario();
 
     bool inserindoFuncionario(const DadosFuncionario& funcionario);
 };

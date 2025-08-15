@@ -25,3 +25,5 @@ bool ModelCadastrar::inserirDadosCadastro(){
         return false;
     }
 };
+
+

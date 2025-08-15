@@ -20,7 +20,7 @@ void ControleDePontoViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net
         Poco::Dynamic::Var result = parser.parse(request.stream());
         Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
 
-        std::string funcionario_id = object->getValue<std::string>("funcionario_id");
+        std::string cpf = object->getValue<std::string>("cpfusuario");
         std::string tipo = object->getValue<std::string>("tipo");
 
         time_t tempoAtual = time(0);
@@ -32,7 +32,7 @@ void ControleDePontoViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net
 
         ModelPonto modelPonto;
         DadosPonto dadosPonto;
-        dadosPonto.funcionario_id = funcionario_id;
+        dadosPonto.cpf = cpf;
         dadosPonto.data = data;
         dadosPonto.horaentrada = horaEntrada;
         dadosPonto.tipo = tipo;
