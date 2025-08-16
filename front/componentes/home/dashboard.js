@@ -26,6 +26,14 @@ const Dashboard = () => {
            <p>90</p>
            <Link href="/compras/fornecedores">Ver Fornecedores</Link>
         </span>
+        <span>
+            <p>Pontos de enteda e saida</p>
+           <Link href="/empresa/visualizarPonto">Ver Pontos</Link>
+        </span>
+        <span>
+            <p>Contabilidade</p>
+           <Link href="/empresa/financas/contabilidade">Ver Fornecedores</Link>
+        </span>
     </div>
   )
 }

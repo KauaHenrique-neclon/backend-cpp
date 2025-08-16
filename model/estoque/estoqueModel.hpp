@@ -40,7 +40,6 @@ public:
 class ModelEstoque {
 public:
     ModelEstoque();
-    //pqxx::connection* conn;
     std::vector<Produto> BuscandoDados();
     std::vector<Estoque> BuscandoDadosEstoque();
     bool InserindoProduto(const Produto& produto);

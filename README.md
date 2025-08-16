@@ -68,3 +68,8 @@ Como rodar
 
 Execute o binário gerado (server): ./server
 O servidor ficará ativo na porta 9980. Acessos via navegador ou cliente HTTP para as rotas acima.
+
+## Projeto Não Finalizado
+
+Não vou finalizar esse projeto por problemas pessoais, mas ele está bem adiantado
+estou bem cansado para terminar ele.
