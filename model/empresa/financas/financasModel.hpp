@@ -18,6 +18,17 @@ public:
     std::string status;
     std::string vencimento;
     std::string dia_lancamento;
+    int codigoBarra;
+};
+
+class DadosOrcamento{
+public:
+    int id;
+    std::string nome_orcamento;
+    std::string preco;
+    std::string status;
+    std::string datapedido;
+    std::string descricao;
 };
 
 
@@ -29,6 +40,8 @@ public:
     ~FinancasModel();
     bool inserindoConta(const DadosConta& conta);
     std::vector<DadosConta> BuscandoContas();
+    bool inserirOrcamento(const DadosOrcamento& orcamento);
+    std::vector<DadosOrcamento> BuscandoOrcamento();
 };
 
 

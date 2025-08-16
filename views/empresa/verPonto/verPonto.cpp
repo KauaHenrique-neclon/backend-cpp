@@ -1,11 +1,12 @@
 #include "verPonto.hpp"
 
 
+VerPontoViews::VerPontoViews() {}
+
+
 void VerPontoViews::handleResquest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
     if(request.getMethod() == Poco::Net::HTTPServerRequest::HTTP_GET){
-
-    }else if(request.getMethod() == Poco::Net::HTTPServerRequest::HTTP_POST){
-
+        Get(response);
     }else{
         response.setStatus(Poco::Net::HTTPServerResponse::HTTP_NOT_IMPLEMENTED);
         response.send();

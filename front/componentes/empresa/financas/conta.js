@@ -9,6 +9,7 @@ const ContaInserir = () => {
         preco: '',
         status: '',
         vencimento: '',
+        codigo: '',
     });
 
     const [dadosOkEnvio, setdadosOkEnvio] = useState(null);
@@ -91,6 +92,14 @@ const ContaInserir = () => {
                name="vencimento"
                id="vencimento"
                value={formDataConta.vencimento}
+               onChange={handeleChange}
+               required
+            />
+            <input 
+               type="number"
+               name="codigo"
+               id="codigo"
+               value={formDataConta.codigo}
                onChange={handeleChange}
                required
             />

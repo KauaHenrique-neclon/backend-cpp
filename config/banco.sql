@@ -20,6 +20,7 @@ CREATE TABLE contas (
     status VARCHAR(20);
     vancimento DATE;
     dia_lancamento DATE;
+    codigo_barra INTEGER;
 );
 
 CREATE TABLE orcamento(

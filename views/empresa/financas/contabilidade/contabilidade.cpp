@@ -31,6 +31,21 @@ void ContabilidadeViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::
         float precoFloat = std::stof(preco);
        
         std::string dataLancamento = data;
+        std::string codigoDeBarra = objeto->getValue<std::string>("codigo");
+        int codigoBarraInt = std::stoi(codigoDeBarra);
+
+        if(nome_conta.empty() || tipoConta.empty() || preco.empty() || status.empty() || vencimento.empty() || codigoDeBarra.empty()){
+            response.setStatus(Poco::Net::HTTPResponse::HTTP_BAD_REQUEST);
+            response.setContentType("application/json");
+            response.send() << "{\"error\": \"Todos os campos são obrigatórios\"}";
+            return;
+        }
+        if(codigoDeBarra.length() < 8){
+            response.setStatus(Poco::Net::HTTPResponse::HTTP_BAD_REQUEST);
+            response.setContentType("application/json");
+            response.send() << "{\"error\": \"Codigo precisa de pelo menso 8 digitos\"}";
+            return;
+        }
 
         FinancasModel financasModel;
         DadosConta dadosConta;
@@ -40,6 +55,7 @@ void ContabilidadeViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::
         dadosConta.status = status;
         dadosConta.vencimento = vencimento;
         dadosConta.dia_lancamento = dataLancamento;
+        dadosConta.codigoBarra = codigoBarraInt;
 
         bool resultado = financasModel.inserindoConta(dadosConta);
         if(resultado){
@@ -84,6 +100,7 @@ void ContabilidadeGetViews::Get(Poco::Net::HTTPServerResponse& response){
             objeto.set("status", dados.status);
             objeto.set("vencimento", dados.vencimento);
             objeto.set("dia_lancamento", dados.dia_lancamento);
+            objeto.set("codigo", dados.codigoBarra);
             array.add(objeto);
         }
         std::ostream& ostr = response.send();
