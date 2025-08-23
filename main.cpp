@@ -178,7 +178,7 @@ public:
             return new ContabilidadePage();
         }
         else {
-            return;
+            throw Poco::NotFoundException("Página não encontrada");
         }
     }
 private:
@@ -211,3 +211,5 @@ int main(int argc, char** argv) {
 // http://localhost:9980/
 
 // g++ *.cpp -o server -lPocoNet -lPocoUtil -lPocoFoundation -lpqxx -lpq
+
+// g++ *.cpp -o server -I. -lPocoNet -lPocoUtil -lPocoFoundation -lpqxx -lpq

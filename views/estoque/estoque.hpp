@@ -14,7 +14,7 @@
 #include <Poco/JSON/Object.h>
 #include "../../model/estoque/estoqueModel.hpp"
 #include "../../middleware/cookie.hpp"
-#include "../../../middleware/cookie.hpp"
+#include "../../middleware/cookie.hpp"
 
 
 class EstoqueViews{

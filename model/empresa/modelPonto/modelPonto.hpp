@@ -6,7 +6,7 @@
 #include <pqxx/pqxx>
 #include <vector>
 #include <string>
-#include "../../config/conect.hpp"
+#include "../../../config/conect.hpp"
 
 
 class DadosPonto{

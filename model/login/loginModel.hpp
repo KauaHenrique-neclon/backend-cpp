@@ -12,8 +12,8 @@ public:
     int id;
     std::string nome;
     std::string email;
-    Usuario(int id, std::string nome, std::string email) : id(id), nome(nome), email(email) {}Usuario() : id(0), nome(""), email("") {}
-    Usuario() : id(0), nome(""), email("") {} 
+    Usuario() : id(0), nome(""), email("") {}
+    Usuario(int id, std::string nome, std::string email) : id(id), nome(nome), email(email) {}
 };
 
 class LoginModel{

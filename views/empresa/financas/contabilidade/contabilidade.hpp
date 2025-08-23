@@ -13,9 +13,9 @@
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/JSON/Parser.h>
 #include <Poco/JSON/Object.h>
-#include "../../model/empresa/financas/financasModel.hpp"
-#include "../../../session/sessao.hpp"
-#include "../../../middleware/cookie.hpp"
+//#include "../../model/empresa/financas/financasModel.hpp"
+#include "session/sessao.hpp"
+#include "middleware/cookie.hpp"
 
 
 class ContabilidadeViews{
