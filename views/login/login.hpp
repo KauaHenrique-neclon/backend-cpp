@@ -20,7 +20,7 @@ public:
 
 private:
     void Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
-    void Get(Poco::Net::HTTPServerResponse& response);
+    //void Get(Poco::Net::HTTPServerResponse& response);
 };
 
 #endif // LOGINVIEW_HPP

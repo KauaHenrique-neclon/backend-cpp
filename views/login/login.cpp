@@ -5,7 +5,8 @@ void LoginView::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::
     if (request.getMethod()  == Poco::Net::HTTPRequest::HTTP_POST) {
         Post(request, response);
     } else {
-        Get(response);
+        response.setStatus(Poco::Net::HTTPServerResponse::HTTP_NOT_IMPLEMENTED);
+        response.send();
     }
 }
 

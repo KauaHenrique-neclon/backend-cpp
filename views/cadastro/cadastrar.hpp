@@ -12,6 +12,7 @@
 #include <Poco/JSON/Parser.h>
 #include <Poco/JSON/Object.h>
 #include <Poco/RegularExpression.h>
+#include "../../session/sessao.hpp"
 #include "../../model/cadastrar/cadastrarModel.hpp"
 
 

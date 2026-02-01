@@ -12,7 +12,6 @@
 #include "middleware/cookie.hpp"
 
 // importando os views 
-#include "views/home/home.hpp"
 #include "views/login/login.hpp"
 #include "views/cadastro/cadastrar.hpp"
 #include "views/estoque/cadastrarProduto.hpp"
@@ -32,8 +31,16 @@ class HomePage : public HTTPRequestHandler {
 public:
     void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override {
         Session sessao;
-        HomeClass home(sessao);
-        home.render(response);
+        if (!sessao.IsAuthenticated()) {
+            response.setStatus(HTTPServerResponse::HTTP_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.send() << R"({"error":"sessão não ativa"})";
+            return;
+        }
+
+        response.setStatus(HTTPServerResponse::HTTP_OK);
+        response.setContentType("application/json");
+        response.send() << R"({"message":"Bem-vindo ao Home!"})";
     }
 };
 

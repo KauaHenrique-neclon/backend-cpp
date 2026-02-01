@@ -1,0 +1,18 @@
+g++ *.cpp -o server -I"C:\Poco\include" -L"C:\Poco\lib" -lPocoNet -lPocoUtil -lPocoFoundation
+
+g++ *.cpp -o server -I. -I"C:\Poco\include" -L"C:\Poco\lib" -lPocoNet -lPocoUtil -lPocoFoundation
+
+
+
+g++ *.cpp -o server -std=gnu++20 -I. -I"C:\Poco\include" -L"C:\Poco\lib" -lPocoNet -lPocoUtil -lPocoFoundation -lpqxx -lpq
+
+
+g++ *.cpp -o server -std=gnu++20 -I. -I"C:\Poco\include" $(pkg-config --cflags --libs libpqxx) -L"C:\Poco\lib" -lPocoNet -lPocoUtil -lPocoFoundation
+
+
+g++ *.cpp -std=gnu++20 -I. -IC:/Poco/include $(pkg-config --cflags --libs libpqxx) -LC:/Poco/lib -lPocoNet -lPocoUtil -lPocoFoundation -o server
+
+g++ *.cpp -std=gnu++20 -I. -IC:/Poco/include -LC:/Poco/lib -lPocoNet -lPocoUtil -lPocoFoundation -lpqxx -lpq -o server
+
+
+g++ main.cpp config/conect.cpp  views/login/login.cpp  views/cadastro/cadastrar.cpp  views/estoque/cadastrarProduto.cpp  views/estoque/estoque.cpp views/compras/fornecedores/fornecedores.cpp views/compras/pedidos/pedidos.cpp views/empresa/financas/contabilidade/contabilidade.cpp session/sessao.cpp middleware/cookie.cpp model/cadastrar/cadastrarModel.cpp model/empresa/cadastrarFunc/cadastrarFunc.cpp model/empresa/financas/financasModel.cpp model/empresa/modelPonto/modelPonto.cpp model/estoque/estoqueModel.cpp model/login/loginModel.cpp middleware/cookie.cpp  -std=gnu++20 -I. -IC:/Poco/include -LC:/Poco/lib -lPocoNet -lPocoUtil -lPocoFoundation -lpqxx -lpq -o server
