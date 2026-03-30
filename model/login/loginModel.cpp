@@ -15,7 +15,7 @@ LoginModel::LoginModel(std::string email, std::string senha) : email(email), sen
 bool LoginModel::LoginUsuario() {
     try {
         pqxx::work w(*conn);
-        pqxx::result res = w.exec("SELECT id, nome, email FROM usuarios WHERE email = " + w.quote(email) + " AND senha = " + w.quote(senha) + ";");
+        pqxx::result res = w.exec("SELECT id, nome, email FROM usuarios WHERE email = " + w.quote(email) + " AND password = " + w.quote(senha) + ";");
 
         if (res.empty()) {
             std::cerr << "Email ou senha incorretos." << std::endl;

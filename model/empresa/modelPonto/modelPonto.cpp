@@ -13,24 +13,34 @@ ModelPonto::ModelPonto() {
 bool ModelPonto::inserindoPonto(const DadosPonto& dadosPonto){
     try{
         pqxx::work conect(*conn);
+
         if(dadosPonto.tipo == "entrada"){
-            conect.exec0("INSERT INTO frequencia(cpf, data, hora_entrada) VALUES(" +
-                conect.quote(dadosPonto.cpf) + ", " +
-                conect.quote(dadosPonto.data) + "," + 
-                conect.quote(dadosPonto.horaentrada) + ");");
+            conect.exec("INSERT INTO frequencia(cpf, data, hora_entrada) VALUES(" +
+                        conect.quote(dadosPonto.cpf) + ", " +
+                        conect.quote(dadosPonto.data) + "," +
+                        conect.quote(dadosPonto.horaentrada) + ");");
             conect.commit();
             return true;
         }
         else if(dadosPonto.tipo == "saida"){
-            conect.exec_params("UPDATE frequencia SET horasaida = NOW() WHERE cpf = $1 AND data = $2 AND hora_saida IS NULL", dadosPonto.cpf, dadosPonto.horasaida);
+            conect.exec("UPDATE frequencia SET horasaida = NOW() WHERE cpf = " + conect.quote(dadosPonto.cpf) +
+                        " AND data = " + conect.quote(dadosPonto.data) +
+                        " AND hora_saida IS NULL");
             conect.commit();
             return true;
         }
-    }catch (const std::exception& e){
-        std::cerr << "Erro ao inserir produto: " << e.what() << std::endl;
+        else {
+            std::cerr << "Tipo de ponto inválido: " << dadosPonto.tipo << std::endl;
+            return false;
+        }
+
+    } catch (const std::exception& e){
+        std::cerr << "Erro ao inserir ponto: " << e.what() << std::endl;
         return false;
     }
 }
+
+
 
 std::vector<DadosPonto> ModelPonto::BuscandoDadosPontos() {
     std::vector<DadosPonto> dadosPontos;

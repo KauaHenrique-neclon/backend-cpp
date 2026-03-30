@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../../styles/componentes/estoque/cadastroProduto.css'
 
 const CadastroProduto = () => {
@@ -43,11 +43,6 @@ const CadastroProduto = () => {
     
   return (
     <div className="cadastrarProduto">
-        <nav>
-            <Link>Estoque</Link>
-            <h1>Cadastrar Produto</h1>
-            <h1>Usuario</h1>
-        </nav>
         <div className="box-cadastro">
           <form onSubmit={handleSubmit}>
             <label>Nome: </label>
@@ -55,10 +50,11 @@ const CadastroProduto = () => {
             <label>Quantidade: </label>
             <input type="number" id="quantidade" name="quantidade" value={formDataCadastro.quantidade} onChange={handleChange} required />
             <label>Escolha o Tipo: </label>
-            <select id="tipo" name="tipo" value={formDataCadastro.tipo} required >
-                <option value="">selecione</option>
-                <optin value="perigoso">Perigoso</optin>
-                <optin value="livre">Livre</optin>
+            <select id="tipo" name="tipo" value={formDataCadastro.tipo}
+                onChange={(e) =>setFormDataCadastro({ ...formDataCadastro, tipo: e.target.value })} required >
+                    <option value="">Selecione</option>
+                    <option value="perigoso">Perigoso</option>
+                    <option value="livre">Livre</option>
             </select>
             <button>Cadastrar Produto</button>
           </form>

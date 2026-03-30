@@ -15,7 +15,7 @@ ModelCadastrarFuncionario::ModelCadastrarFuncionario(){
 bool ModelCadastrarFuncionario::inserindoFuncionario(const DadosFuncionario& funcionario){
     try{
         pqxx::work conec(*conn);
-        conec.exec0("INSERT INTO funcionarios (nome,cfp , email, datanascimento, cidade, bairro) VALUES (" +
+        conec.exec("INSERT INTO funcionarios (nome,cfp , email, datanascimento, cidade, bairro) VALUES (" +
                   conec.quote(funcionario.nome) + ", " +
                   conec.quote(funcionario.cpf) + ", " +
                   conec.quote(funcionario.email) + ", " +

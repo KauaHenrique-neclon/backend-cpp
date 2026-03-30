@@ -1,6 +1,6 @@
 //import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
-import '../styles/estoque/estoque.css'
+import '../../styles/estoque/estoque.css';
 import CadastroProduto from '../../componentes/estoque/cadastroProduto';
 import EstoqueProduto from '../../componentes/estoque/estoqueProduto';
 import RemoverProduto from '../../componentes/estoque/remover';
@@ -9,7 +9,7 @@ import RemoverProduto from '../../componentes/estoque/remover';
 const estoque = () => {
     const [showCadastro, setShowCadastro] = useState(false);
     const [showEstoque, setShowEstoque] = useState(false);
-    const [showRemover, setShowRemover] = useState(flase);
+    const [showRemover, setShowRemover] = useState(false);
 
     const handleCadastroClick = () =>{
         setShowCadastro(true);

@@ -1,11 +1,16 @@
 #include "sessao.hpp"
 #include <iostream>
 
+
+
 Session::Session() : authenticated(false), loginModel(nullptr) {
    
 }
 
 bool Session::Login(const std::string& email, const std::string& senha) {
+    if (loginModel) {
+        delete loginModel;
+    }
     loginModel = new LoginModel(email, senha); 
     if (loginModel->LoginUsuario()) {
         authenticated = true;

@@ -3,13 +3,29 @@
 
 
 void CadastrarProdutoView::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
+    std::cout << "\n==============================" << std::endl;
+    std::cout << "[DEBUG] Nova requisição" << std::endl;
+    std::cout << "[DEBUG] Método: " << request.getMethod() << std::endl;
+    std::cout << "[DEBUG] URI: " << request.getURI() << std::endl;
+
     cookieMiddleware.cookieMiddleware(request, response);
-    if (response.getStatus() != Poco::Net::HTTPResponse::HTTP_OK) {
-        return; 
+
+    response.set("Access-Control-Allow-Origin", "http://localhost:3000");
+    response.set("Access-Control-Allow-Credentials", "true");
+    response.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+
+    std::cout << "[DEBUG] Headers CORS aplicados" << std::endl;
+
+    if(request.getMethod() == Poco::Net::HTTPRequest::HTTP_OPTIONS) {
+        response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
+        response.send();
+        return;
     }
-    if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST) {
-        Post(request, response);
-    }else {
+    if(request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST){
+        std::cout << "DEBUG - request do handlerequest POST" << std::endl;
+        Post(request , response);
+    } else {
         response.setStatus(Poco::Net::HTTPResponse::HTTP_NOT_IMPLEMENTED);
         response.send();
     }
@@ -25,12 +41,15 @@ void CadastrarProdutoView::Post(Poco::Net::HTTPServerRequest& request, Poco::Net
             return;
         }
 
+        std::cout << "DEBUG - Dentro da função POST do cadastro" << std::endl;
         
         std::string body;
 
         Poco::JSON::Parser parser;
         Poco::Dynamic::Var result = parser.parse(request.stream());
         Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
+
+        std::cout << "Debug JSON recebido" << object << std::endl;
 
         std::string nome = object->getValue<std::string>("nome");
         std::string descricao = object->getValue<std::string>("descricao");

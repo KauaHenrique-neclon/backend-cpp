@@ -3,12 +3,19 @@
 #include <stdexcept>
 
 
+pqxx::connection* ModelEstoque::conn = nullptr;
 
 ModelEstoque::ModelEstoque() {
-    conn = bancoDados();
     if (!conn) {
-        std::cerr << "Falha ao conectar ao banco de dados no ModelEstoque." << std::endl;
-        throw std::runtime_error("Falha na conexão com o banco de dados.");
+        try {
+            conn = new pqxx::connection("dbname=erp user=postgres password=5115 host=localhost");
+            if (!conn->is_open()) {
+                throw std::runtime_error("Falha na conexão com o banco.");
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "Erro de conexão: " << e.what() << std::endl;
+            throw;
+        }
     }
 }
 
@@ -60,7 +67,7 @@ std::vector<Estoque> ModelEstoque::BuscandoDadosEstoque() {
 bool ModelEstoque::InserindoProduto(const Produto& produto) {
     try {
         pqxx::work txn(*conn);
-        txn.exec0("INSERT INTO produtos (nome, descricao, codigo, unidademedida) VALUES (" +
+        txn.exec("INSERT INTO produtos (nome, descricao, codigo, unidademedida) VALUES (" +
                   txn.quote(produto.nome) + ", " +
                   txn.quote(produto.descricao) + ", " +
                   txn.quote(produto.codigo) + ", " +
@@ -78,7 +85,7 @@ bool ModelEstoque::InserindoProduto(const Produto& produto) {
 bool ModelEstoque::EstoqueProduto(const Estoque& estoque) {
     try {
         pqxx::work txn(*conn);
-        txn.exec0("INSERT INTO estoque (idproduto, quantidade, localizacao, datavalidade) VALUES (" +
+        txn.exec("INSERT INTO estoque (idproduto, quantidade, localizacao, datavalidade) VALUES (" +
                   txn.quote(estoque.idproduto) + ", " +
                   txn.quote(estoque.quantidade) + ", " +
                   txn.quote(estoque.localizacao) + ", " +
@@ -95,7 +102,7 @@ bool ModelEstoque::EstoqueProduto(const Estoque& estoque) {
 bool ModelEstoque::MovimentarProduto(int idproduto, const std::string& tipomovimentacao, const std::string& quantidade, const std::string& datamovimentacao) {
     try {
         pqxx::work txn(*conn);
-        txn.exec0("INSERT INTO movimentacoes (idproduto, tipomovimentacao, quantidade, datamovimentacao) VALUES (" +
+        txn.exec("INSERT INTO movimentacoes (idproduto, tipomovimentacao, quantidade, datamovimentacao) VALUES (" +
                   txn.quote(idproduto) + ", " +
                   txn.quote(tipomovimentacao) + ", " +
                   txn.quote(quantidade) + ", " +
@@ -112,7 +119,7 @@ bool ModelEstoque::MovimentarProduto(int idproduto, const std::string& tipomovim
 bool ModelEstoque::Fornecedores(const Fornecedor& fornecedor) {
     try {
         pqxx::work txn(*conn);
-        txn.exec0("INSERT INTO fornecedores (nome, endereco, telefone, email) VALUES (" +
+        txn.exec("INSERT INTO fornecedores (nome, endereco, telefone, email) VALUES (" +
                   txn.quote(fornecedor.nome) + ", " +
                   txn.quote(fornecedor.endereco) + ", " +
                   txn.quote(fornecedor.telefone) + ", " +
@@ -151,7 +158,7 @@ std::vector<Fornecedor> ModelEstoque::BuscandoFornecedores() {
 bool ModelEstoque::Pedidos(int idproduto, int idfornecedor, std::string datapedido, std::string statuspedido, std::string itempedido) {
     try {
         pqxx::work txn(*conn);
-        txn.exec0("INSERT INTO pedidos (idproduto, idfornecedor, datapedido, statuspedido, itempedido) VALUES (" +
+        txn.exec("INSERT INTO pedidos (idproduto, idfornecedor, datapedido, statuspedido, itempedido) VALUES (" +
                   txn.quote(idproduto) + ", " +
                   txn.quote(idfornecedor) + ", " +
                   txn.quote(datapedido) + ", " +

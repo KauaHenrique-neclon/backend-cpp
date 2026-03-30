@@ -1,0 +1,41 @@
+void LoginView::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response) {
+    try {
+        Poco::JSON::Parser parser;
+        Poco::Dynamic::Var result = parser.parse(request.stream());
+        Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
+
+        object->stringify(std::cout);
+        std::cout << std::endl;
+
+        std::string email = object->getValue<std::string>("email");
+        std::string password = object->getValue<std::string>("senha");
+        LoginModel loginModel(email, password);
+
+        if (loginModel.LoginUsuario()) {
+
+            Usuario usuarioo = loginModel.getUsuario();
+
+            response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
+            response.setContentType("application/json");
+
+            Poco::JSON::Object jsonResponse;
+            //jsonResponse.set("message", "Login bem-sucedido");
+            jsonResponse.set("nome", usuarioo.nome);
+
+            std::ostream& out = response.send();
+            jsonResponse.stringify(out);
+
+        } else {
+            response.setStatus(Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED);
+            response.setContentType("application/json");
+            Poco::JSON::Object error;
+            error.set("error", "Invalid Username or Password");
+            std::ostream& out = response.send();
+            error.stringify(out);
+        }
+
+    } catch (const Poco::Exception& ex) {
+        response.setStatus(Poco::Net::HTTPResponse::HTTP_BAD_REQUEST);
+        response.send() << "Erro ao processar JSON";
+    }
+}

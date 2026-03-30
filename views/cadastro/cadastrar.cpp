@@ -3,8 +3,6 @@
 void CadastrarView::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
     if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST) {
         Post(request, response);
-    } else if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET) {
-        Get(response);
     } else {
         response.setStatus(Poco::Net::HTTPResponse::HTTP_NOT_IMPLEMENTED);
         response.send();

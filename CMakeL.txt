@@ -1,0 +1,35 @@
+cmake_minimum_required(VERSION 3.10)
+project(backend_cpp) 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set("ZLIB_INCLUDE_DIR C:/msys64/mingw64/include")  
+set(ZLIB_LIBRARY "C:/msys64/mingw64/lib/zlib.lib")
+find_package(Poco REQUIRED COMPONENTS Net Util Foundation)
+
+set(SOURCES
+  main.cpp
+  views/cadastro/cadastrar.cpp
+  views/home/home.cpp
+  views/login/login.cpp
+  views/compras/aprovacao/aprovacao.cpp
+  views/compras/fornecedores/fornecedores.cpp
+  views/compras/pedidos/pedidos.cpp
+  views/estoque/cadastrarProduto.cpp
+  views/estoque/estoque.cpp
+  views/estoque/movimentandoProduto.cpp
+  model/cadastrar/cadastrarModel.cpp
+  model/estoque/estoqueModel.cpp
+  model/login/loginModel.cpp
+  config/conect.hpp
+)
+
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+target_link_libraries(${PROJECT_NAME}
+  Poco::Net
+  Poco::Util
+  Poco::Foundation
+  pqxx
+  pq
+)

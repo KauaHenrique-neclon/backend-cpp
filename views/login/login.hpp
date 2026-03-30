@@ -13,6 +13,7 @@
 #include <Poco/JSON/Parser.h>
 #include <Poco/JSON/Object.h>
 #include "../../model/login/loginModel.hpp"
+#include "../../session/sessao.hpp"
 
 class LoginView {
 public:

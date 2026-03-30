@@ -14,14 +14,17 @@
 #include "../../../model/estoque/estoqueModel.hpp"
 #include <Poco/RegularExpression.h>
 #include "../../../session/sessao.hpp"
+#include "../../../middleware/cookie.hpp"
+
 
 class PedidosViews {
 public:
     void handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
-    PedidosViews(Session& sess) : sessao(sess) {};
+    PedidosViews(Session& sess, Cookie& cook) : sessao(sess), cookieMiddleware(cook)  {};
 
 private:
     Session& sessao;
+    Cookie& cookieMiddleware;
     void Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void Get(Poco::Net::HTTPServerResponse& response);
 };

@@ -1,54 +1,69 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 
 const EstoqueProduto = () => {
+  const [dadosEstoque, setDadosEstoque] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    const [dadosEstoque, setDadosEstoque] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    
-    
-    const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    
-    useEffect(() => {
-        const fetcDadosEstoque = async () => {
-            try{
-                const response = await fetch(`${apiUrl}/`);
-                if(!response.ok){
-                    throw new Error('Erro ao buscar dados estoque');
-                }
-                const data = await response.json();
-                setDadosEstoque(data.dados || [] );
-            }catch (error) {
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetcDadosEstoque();
-    }, []);
-    
+  const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  useEffect(() => {
+    const fetchDadosEstoque = async () => {
+      try {
+        console.log(apiUrl);
+        const response = await fetch(`${apiUrl}/Estoque`,{
+            method: 'GET',
+            credentials: 'include',
+        });
+        if (!response.ok) {
+          throw new Error('Erro ao buscar dados estoque');
+        }
+        const data = await response.json();
+        console.log(data);
+        setDadosEstoque(data.dados || []);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDadosEstoque();
+  }, [apiUrl]);
+
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>Erro: {error}</p>;
+
   return (
     <div className="tabelaEstoque">
-        <table>
-            <thead>
-                <tr>
-                    <th>Testeccc</th>
-                    <th>Testeccc</th>
-                    <th>Testeccc</th>
-                    <th>Testeccc</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>Teste</th>
-                    <th>Teste</th>
-                    <th>Teste</th>
-                    <th>Teste</th>
-                </tr>
-            </tbody>
-        </table>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Código</th>
+            <th>Unidade de medida</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dadosEstoque.length === 0 ? (
+            <tr>
+              <td colSpan="4">Nenhuma mercadoria no estoque</td>
+            </tr>
+          ) : (
+            dadosEstoque.map((estoque) => (
+              <tr key={estoque.id}>
+                <td>{estoque.id}</td>
+                <td>{estoque.nome}</td>
+                <td>{estoque.codigo}</td>
+                <td>{estoque.unidademedida}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
     </div>
-  )
-}
+  );
+};
 
 export default EstoqueProduto;

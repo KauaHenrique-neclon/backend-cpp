@@ -7,6 +7,7 @@
 #include "Poco/Util/ServerApplication.h"
 #include <Poco/URI.h>
 #include <iostream>
+#include <unordered_map>
 
 #include "session/sessao.hpp"
 #include "middleware/cookie.hpp"
@@ -27,6 +28,8 @@ using namespace Poco;
 using namespace Poco::Net;
 using namespace Poco::Util;
 
+std::unordered_map<std::string, Session> sessions;
+
 class HomePage : public HTTPRequestHandler {
 public:
     void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override {
@@ -37,7 +40,7 @@ public:
             response.send() << R"({"error":"sessão não ativa"})";
             return;
         }
-
+        std::cout << "Acesso ao url Home" << std::endl;
         response.setStatus(HTTPServerResponse::HTTP_OK);
         response.setContentType("application/json");
         response.send() << R"({"message":"Bem-vindo ao Home!"})";
@@ -52,9 +55,26 @@ public:
     }
 };
 
+
+
+class LogoutPage : public HTTPRequestHandler {
+public:
+    void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override {
+        Session sessao;
+        sessao.Logout();
+        response.setStatus(HTTPServerResponse::HTTP_OK);
+        response.setContentType("application/json");
+        response.send() << R"({"message":"Logout realizado"})";
+    }
+};
+
+
+
 class CadastrarPage : public HTTPRequestHandler{
 public:
-    void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override{  
+    void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override{
+        Session sessao;
+        Cookie cookie(sessao);
     }
 };
 
@@ -109,12 +129,22 @@ class PedidosPage : public HTTPRequestHandler{
 public:
 
     void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) {
-        Session sessao;
-        PedidosViews pedidosViews(sessao);
-        pedidosViews.handleRequest(request, response);
+        try {
+            Session sessao;
+            Cookie cookie(sessao);
+            if (!sessao.IsAuthenticated()) {
+                response.setStatus(HTTPServerResponse::HTTP_UNAUTHORIZED);
+                response.send() << "A sessão não está ativa.";
+                return;
+            }
+            PedidosViews pedidosViews(sessao, cookie);
+            pedidosViews.handleRequest(request, response);
+        } catch (const std::exception& e) {
+            response.setStatus(HTTPServerResponse::HTTP_INTERNAL_SERVER_ERROR);
+            response.send() << "Erro interno do servidor.";
+        }
     }
 };
-
 
 class ControleDePontoPage : public HTTPRequestHandler {
 public:
@@ -156,7 +186,6 @@ public:
     }
 };
 
-
 class MyRequestHandlerFactory: public HTTPRequestHandlerFactory
 {
 public:
@@ -165,17 +194,19 @@ public:
         Poco::URI uri(request.getURI());
         const std::string& path = uri.getPath();
         
-        if (path == "/") {
+        if (path == "/login") {
             std::cerr << "Request no Login" << std::endl;
             return new LoginPage();
         } else if (path == "/cadastrar"){
             std::cerr << "Request no Cadastro" << std::endl;
             return new CadastrarPage();
         } else if (path == "/home") {
+            std::cerr << "Request no home" << std::endl;
             return new HomePage();
         } else if (path == "/cadastrarProduto"){
             return new CadastrarProdutoPage();
         } else if (path == "/Estoque"){
+            std::cerr << "Request no Estoque Page" << std::endl;
             return new EstoquePage();
         } else if (path == "/Fornecedores"){
             return new FornecedoresPage();
@@ -183,6 +214,8 @@ public:
             return new PedidosPage();
         }else if (path == "/Contabilidade"){
             return new ContabilidadePage();
+        }else if (path == "/logout") {
+            return new LogoutPage();
         }
         else {
             throw Poco::NotFoundException("Página não encontrada");

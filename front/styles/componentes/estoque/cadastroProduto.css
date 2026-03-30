@@ -47,7 +47,7 @@ label {
 input[type="text"],
 input[type="number"],
 select {
-    width: 100%;
+    width: 98%;
     padding: 10px;
     border: 1px solid #c8e6c9;
     border-radius: 4px;

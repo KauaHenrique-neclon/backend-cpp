@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import '../styles/compras/cadastroFornecedores.css'
 
+
+
 const CadastroFornecedores = () => {
 
     const [formDados, SetFormDados] = useState({

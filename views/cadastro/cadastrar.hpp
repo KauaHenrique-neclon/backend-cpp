@@ -25,7 +25,7 @@ public:
 private:
     Session& sessao;
     void Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
-    void Get(Poco::Net::HTTPServerResponse& response);
+    //void Get(Poco::Net::HTTPServerResponse& response);
 };
 
 

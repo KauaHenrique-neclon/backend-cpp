@@ -2,6 +2,9 @@
 
 
 void PedidosViews::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
+    
+    cookieMiddleware.cookieMiddleware(request, response);
+    
     if (request.getMethod() == Poco::Net::HTTPServerRequest::HTTP_POST){
         Post(request, response);
     }

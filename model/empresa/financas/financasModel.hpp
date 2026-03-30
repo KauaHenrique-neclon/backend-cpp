@@ -34,7 +34,8 @@ public:
 
 class FinancasModel{
 private:
-    static pqxx::connection* conn;
+    static std::unique_ptr<pqxx::connection> conn;
+    void conectar();
 public:
     FinancasModel();
     ~FinancasModel();
