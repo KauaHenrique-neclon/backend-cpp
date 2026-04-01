@@ -23,6 +23,7 @@ const EstoqueProduto = () => {
         setDadosEstoque(data.dados || []);
       } catch (error) {
         setError(error.message);
+        console.log(Error);
       } finally {
         setLoading(false);
       }

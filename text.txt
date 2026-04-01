@@ -12,6 +12,7 @@ model/empresa/cadastrarFunc/cadastrarFunc.cpp \
 model/empresa/financas/financasModel.cpp \
 model/empresa/modelPonto/modelPonto.cpp \
 model/estoque/estoqueModel.cpp \
+
 model/login/loginModel.cpp \
 -std=gnu++20 -I. \
 -lPocoNet -lPocoUtil -lPocoFoundation -lPocoJSON \

@@ -193,7 +193,9 @@ public:
     HTTPRequestHandler* createRequestHandler(const HTTPServerRequest& request) override {
         Poco::URI uri(request.getURI());
         const std::string& path = uri.getPath();
-        
+        Session session;
+        std::cerr << "Session: " << session.IsAuthenticated() << std::endl;
+
         if (path == "/login") {
             std::cerr << "Request no Login" << std::endl;
             return new LoginPage();

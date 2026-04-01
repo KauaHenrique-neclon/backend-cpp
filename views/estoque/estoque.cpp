@@ -4,6 +4,11 @@ void EstoqueViews::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Ne
     
     cookieMiddleware.cookieMiddleware(request, response);
 
+    std::cout << "\n==============================" << std::endl;
+    std::cout << "[DEBUG] Nova requisição" << std::endl;
+    std::cout << "[DEBUG] Método: " << request.getMethod() << std::endl;
+    std::cout << "[DEBUG] URI: " << request.getURI() << std::endl;
+
     response.set("Access-Control-Allow-Origin", "http://localhost:3000");
     response.set("Access-Control-Allow-Credentials", "true");
     response.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
