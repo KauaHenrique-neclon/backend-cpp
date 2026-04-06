@@ -2,10 +2,27 @@
 
 
 void ContabilidadeViews::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
-    if(request.getMethod() == Poco::Net::HTTPServerRequest::HTTP_POST){
+    
+    //cookieMiddleware.cookieMiddleware(request, response);
+
+    response.set("Access-Control-Allow-Origin", "http://localhost:3000");
+    response.set("Access-Control-Allow-Credentials", "true");
+    response.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+
+    if(request.getMethod() == Poco::Net::HTTPRequest::HTTP_OPTIONS){
+        response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
+        response.send();
+        return;
+    }
+    if(request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET){
+        Get(response);
+    }
+    if(request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST){
         Post(request, response);
-    }else{
-        response.setStatus(Poco::Net::HTTPServerResponse::HTTP_NOT_IMPLEMENTED);
+    }
+    else{
+        response.setStatus(Poco::Net::HTTPResponse::HTTP_NOT_IMPLEMENTED);
         response.send();
     }
 }
@@ -75,7 +92,7 @@ void ContabilidadeViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::
 }
 
 
-
+/*
 void ContabilidadeGetViews::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
     if(request.getMethod() == Poco::Net::HTTPServerRequest::HTTP_GET){
         Get(response);
@@ -83,9 +100,9 @@ void ContabilidadeGetViews::handleRequest(Poco::Net::HTTPServerRequest& request,
         response.setStatus(Poco::Net::HTTPServerResponse::HTTP_NOT_IMPLEMENTED);
         response.send();
     }
-}
+}*/
 
-void ContabilidadeGetViews::Get(Poco::Net::HTTPServerResponse& response){
+void ContabilidadeViews::Get(Poco::Net::HTTPServerResponse& response){
     try{
         response.setContentType("application/json");
         FinancasModel financasModel;

@@ -6,7 +6,7 @@ const MenuLateral = () => {
   return (
       <nav className="navbar">
           <Link href="/home">Home</Link>
-          <Link href="/cadastrar">Cadastrar</Link>
+          <Link href="/empresa">Cadastrar</Link>
           <Link href="/login">Login</Link>
           <Link href="/estoque/estoque">Estoque</Link>
           <Link href="/estoque/removerProduto">Remover Produto</Link>

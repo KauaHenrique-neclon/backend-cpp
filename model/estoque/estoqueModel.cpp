@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdexcept>
 
-
+// Construtor da Class
 pqxx::connection* ModelEstoque::conn = nullptr;
 
 ModelEstoque::ModelEstoque() {
@@ -20,6 +20,7 @@ ModelEstoque::ModelEstoque() {
 }
 
 
+// Buscando dados do Produtos
 std::vector<Produto> ModelEstoque::BuscandoDados() {
     std::vector<Produto> produtos;
     try {
@@ -67,11 +68,13 @@ std::vector<Estoque> ModelEstoque::BuscandoDadosEstoque() {
 bool ModelEstoque::InserindoProduto(const Produto& produto) {
     try {
         pqxx::work txn(*conn);
-        txn.exec("INSERT INTO produtos (nome, descricao, codigo, unidademedida) VALUES (" +
+        txn.exec("INSERT INTO produtos (nome, descricao, codigo, unidademedida, ativo) VALUES (" +
                   txn.quote(produto.nome) + ", " +
                   txn.quote(produto.descricao) + ", " +
                   txn.quote(produto.codigo) + ", " +
-                  txn.quote(produto.unidademedida) + ");");
+                  txn.quote(produto.unidademedida) + "), " +
+                  "true);"
+                );
         txn.commit();
         return true;
     } catch (const std::exception &e) {
@@ -168,6 +171,19 @@ bool ModelEstoque::Pedidos(int idproduto, int idfornecedor, std::string datapedi
         return true;
     } catch (const std::exception &e) {
         std::cerr << "Erro ao processar pedido: " << e.what() << std::endl;
+        return false;
+    }
+}
+
+
+bool ModelEstoque::RemoverProduto(int id){
+    try{
+        pqxx::work conexao(*conn);
+        conexao.exec("UPDATE produtos SET ativo = false WHERE id = " + std::to_string(id) + ";");
+        conexao.commit();
+        return true;
+    }catch (const std::exception &e) {
+        std::cerr << "Erro ao processar o desativamento do produto: " << e.what() << std::endl;
         return false;
     }
 }

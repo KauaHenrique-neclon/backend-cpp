@@ -1,0 +1,104 @@
+.login-all {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+
+  background: #0f172a;
+  color: #f1f5f9;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-all h1 {
+  margin-bottom: 20px;
+  color: #e2e8f0;
+}
+
+.login-all form {
+  width: 90%;
+  max-width: 400px;
+  background: #020617;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+
+  animation: fadeIn 0.3s ease;
+}
+
+.inputs-tudo {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputs-tudo label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #94a3b8;
+}
+
+.inputs-tudo input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #f1f5f9;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.inputs-tudo input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 5px #3b82f6;
+}
+
+.buttonSubmit {
+  display: flex;
+  justify-content: center;
+}
+
+.buttonSubmit button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #1e293b;
+  color: #e2e8f0;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.buttonSubmit button:hover {
+  background: #3b82f6;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.buttonSubmit button:active {
+  transform: scale(0.98);
+}
+
+/* mensagens */
+.login-all pre {
+  background: #020617;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

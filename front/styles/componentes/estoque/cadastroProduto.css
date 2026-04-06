@@ -1,79 +1,57 @@
 .cadastrarProduto {
-    background-color: #f1f8e9;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 600px;
-    margin: 0 auto;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-nav {
+    width: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-nav h1 {
-    font-size: 24px;
-    color: #33691e;
-}
-
-nav a {
-    text-decoration: none;
-    color: #33691e;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-nav a:hover {
-    color: #1b5e20;
+    justify-content: center;
+    margin-top: 40px;
 }
 
 .box-cadastro {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    background: #020617;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    color: #f1f5f9;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #2e7d32;
+.box-cadastro form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-input[type="text"],
-input[type="number"],
-select {
-    width: 98%;
+.box-cadastro label {
+    font-size: 14px;
+}
+
+.box-cadastro input,
+.box-cadastro select {
     padding: 10px;
-    border: 1px solid #c8e6c9;
-    border-radius: 4px;
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-select:focus {
-    border-color: #66bb6a;
+    border-radius: 8px;
+    border: none;
+    background: #1e293b;
+    color: #f1f5f9;
     outline: none;
 }
 
-button {
-    background-color: #43a047;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-    transition: background-color 0.3s;
+.box-cadastro input:focus,
+.box-cadastro select:focus {
+    background: #334155;
 }
 
-button:hover {
-    background-color: #388e3c;
+.box-cadastro button {
+    margin-top: 10px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #3b82f6;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.box-cadastro button:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
 }

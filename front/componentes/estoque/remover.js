@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 
 const RemoverProduto = () => {
     const [dadosEstoque, setDadosRemover] = useState([]);
@@ -10,34 +10,34 @@ const RemoverProduto = () => {
 
     
     const handleSubmit = async (idproduto) => {
-        e.preventDefault();
-
-        const formDataId = new FormData();
-        formDataId.append('idproduto',idproduto);
         try{
             const response = await fetch(`${apiUrl}/removerProduto`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formDataId),
-            })
+                body: JSON.stringify({ id: idproduto }),
+            });
             if(!response.ok){
                 const errorData = await response.json();
-                console.error('Erro ao cadastrar produto:', errorData);
+                console.error('Erro ao remover produto:', errorData);
+                return;
             }
-            const data = await response.json();
-            console.log('Dados removido com sucesso');
-        }catch  (error){
+            console.log('Produto removido com sucesso');
+            setDadosRemover((prev) => prev.filter(p => p.id !== idproduto));
+        }catch(error){
             console.error('Erro na requisição:', error);
         }
-        console.log('Dados removido com sucesso.');
-    }
+    };
 
     useEffect(() => {
         const fetcDadosRemover = async () => {
         try{
-            const response = await fetch(`${apiUrl}/`);
+            const response = await fetch(`${apiUrl}/removerProduto`, {
+                method: 'GET',
+                credentials: 'include',
+            });
+            console.log(response);
             if(!response.ok){
                 throw new Error('Erro ao buscar dados estoque');
             }
@@ -61,7 +61,7 @@ const RemoverProduto = () => {
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Quantidade</th>
-                        <th>Tipo</th>
+                        <th>Remover</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,13 +70,12 @@ const RemoverProduto = () => {
                             <td colSpan={4}>Nenhum dado encontrado</td>
                         </tr>
                     ) : (
-
                         <>
                         {dadosEstoque.map((produto) => (
                             <tr key={produto.id}>
+                                <td>{produto.id}</td>
                                 <td>{produto.nome}</td>
                                 <td>{produto.quantidade}</td>
-                                <td>{produto.tipo}</td>
                                 <td>
                                     <button onClick={() => handleSubmit(produto.id)}>Remover</button>
                                 </td>

@@ -48,6 +48,7 @@ public:
     bool Fornecedores(const Fornecedor& fornecedor);
     bool Pedidos(int idproduto,int idfornecedor, std::string datapedido, std::string statuspedido, std::string itempedido);
     std::vector<Fornecedor> BuscandoFornecedores();
+    bool RemoverProduto(int id);
 
 private:
     static pqxx::connection* conn;

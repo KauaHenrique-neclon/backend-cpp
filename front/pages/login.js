@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import "../styles/login/login.css"
 
 const Login = () => {
   const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;

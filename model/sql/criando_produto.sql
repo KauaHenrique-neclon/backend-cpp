@@ -3,7 +3,8 @@ create table produtos(
 	nome varchar(30) not null,
 	descricao varchar(256) not null,
 	codigo int not null,
-	unidademedida varchar(20) not null
+	unidademedida varchar(20) not null,
+	ativo boolean not null
 );
 create table estoque(
     id SERIAL PRIMARY KEY,

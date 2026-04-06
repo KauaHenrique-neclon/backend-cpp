@@ -21,22 +21,24 @@
 class ContabilidadeViews{
 public:
     void handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
-    ContabilidadeViews(Session& sess, Cookie& cook) : sessao_(sess), cookie_(cook) {};
+    //ContabilidadeViews(Session& sess, Cookie& cook) : sessao_(sess), cookie_(cook) {};
 private:
-    Session& sessao_;
-    Cookie& cookie_;
+    /*Session& sessao_;
+    Cookie& cookie_;*/
     void Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
+    void Get(Poco::Net::HTTPServerResponse& response);
 };
 
+/*
 class ContabilidadeGetViews{
 public:
     void handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
-    ContabilidadeGetViews(Session& sess, Cookie& cook) : sessao_(sess), cookie_(cook) {};
+    //ContabilidadeGetViews(Session& sess, Cookie& cook) : sessao_(sess), cookie_(cook) {};
 private:
     Session& sessao_;
     Cookie& cookie_;
     void Get(Poco::Net::HTTPServerResponse& response);
-};
+};*/
 
 
 #endif // CONTABILIDADE_HPP

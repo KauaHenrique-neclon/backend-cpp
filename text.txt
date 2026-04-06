@@ -3,6 +3,7 @@ views/login/login.cpp \
 views/cadastro/cadastrar.cpp \
 views/estoque/cadastrarProduto.cpp \
 views/estoque/estoque.cpp \
+views/estoque/removerProduto/removerProduto.cpp \
 views/compras/fornecedores/fornecedores.cpp \
 views/compras/pedidos/pedidos.cpp \
 views/empresa/financas/contabilidade/contabilidade.cpp \
@@ -12,7 +13,6 @@ model/empresa/cadastrarFunc/cadastrarFunc.cpp \
 model/empresa/financas/financasModel.cpp \
 model/empresa/modelPonto/modelPonto.cpp \
 model/estoque/estoqueModel.cpp \
-
 model/login/loginModel.cpp \
 -std=gnu++20 -I. \
 -lPocoNet -lPocoUtil -lPocoFoundation -lPocoJSON \

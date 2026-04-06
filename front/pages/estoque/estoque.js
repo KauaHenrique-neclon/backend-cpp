@@ -1,4 +1,4 @@
-//import Link from 'next/link';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import '../../styles/estoque/estoque.css';
 import CadastroProduto from '../../componentes/estoque/cadastroProduto';
@@ -35,6 +35,7 @@ const estoque = () => {
             <button onClick={handleCadastroClick}>Cadastrar Produto</button>
             <button onClick={handleEstoqueClick}>Estoque</button>
             <button onClick={handleRemoverClick}>remover Produto</button>
+            {/*<Link href="home">Home</Link>*/}
         </nav>
         {showCadastro && (
             <div className="janela-cadastro">

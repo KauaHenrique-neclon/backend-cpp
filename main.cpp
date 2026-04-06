@@ -12,11 +12,16 @@
 #include "session/sessao.hpp"
 #include "middleware/cookie.hpp"
 
+
+// rotas
+//#include "rotas/empresa/empresaRoute.hpp"
+
 // importando os views 
 #include "views/login/login.hpp"
 #include "views/cadastro/cadastrar.hpp"
 #include "views/estoque/cadastrarProduto.hpp"
 #include "views/estoque/estoque.hpp"
+#include "views/estoque/removerProduto/removerProduto.hpp"
 #include "views/compras/fornecedores/fornecedores.hpp"
 #include "views/compras/pedidos/pedidos.hpp"
 #include "views/empresa/funcionarios/cadastrarFunc.hpp"
@@ -34,12 +39,12 @@ class HomePage : public HTTPRequestHandler {
 public:
     void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override {
         Session sessao;
-        if (!sessao.IsAuthenticated()) {
+        /*if (!sessao.IsAuthenticated()) {
             response.setStatus(HTTPServerResponse::HTTP_UNAUTHORIZED);
             response.setContentType("application/json");
             response.send() << R"({"error":"sessão não ativa"})";
             return;
-        }
+        }*/
         std::cout << "Acesso ao url Home" << std::endl;
         response.setStatus(HTTPServerResponse::HTTP_OK);
         response.setContentType("application/json");
@@ -78,16 +83,20 @@ public:
     }
 };
 
+/////////////////////////////////////////////////
+// ESTOQUE VIEWS
+//
+//
 class CadastrarProdutoPage : public HTTPRequestHandler{
 public:
     void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override{
         Session sessao;
         Cookie cookie(sessao);
-        if (!sessao.IsAuthenticated()) {            
+        /*if (!sessao.IsAuthenticated()) {            
             response.setStatus(Poco::Net::HTTPServerResponse::HTTP_UNAUTHORIZED);
             response.send() << "A sessão não está ativa.";
             return;
-        }
+        }*/
         CadastrarProdutoView cadastroProduto(sessao, cookie);
         cadastroProduto.handleRequest(request, response);
     }
@@ -99,27 +108,56 @@ public:
         Session sessao;
         Cookie cookie(sessao);
 
-        if (!sessao.IsAuthenticated()) {            
+        /*if (!sessao.IsAuthenticated()) {            
             response.setStatus(Poco::Net::HTTPServerResponse::HTTP_UNAUTHORIZED);
             response.send() << "A sessão não está ativa.";
             return;
-        }
+        }*/
         EstoqueViews estoqueView(sessao, cookie);
         estoqueView.handleRequest(request, response);
     }
 };
 
+class RemoverProdutoPage : public HTTPRequestHandler{
+    void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override{
+        Session sessao;
+        Cookie cookie(sessao);
+
+        /*if (!sessao.IsAuthenticated()) {            
+            response.setStatus(Poco::Net::HTTPServerResponse::HTTP_UNAUTHORIZED);
+            response.send() << "A sessão não está ativa.";
+            return;
+        }*/
+        RemoverProdutoViews removerProdutoView;
+        removerProdutoView.handleRequest(request, response);
+    }
+};
+
+/*
+################################################
+      FIM DA VIEWS DO ESTOQUE
+################################################
+*/
+
+
+
+
+/*
+##########################################
+   VIEWS DA COMPRAS
+##########################################
+*/
 
 class FornecedoresPage : public HTTPRequestHandler{
 public:
     void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) {
         Session sessao;
         Cookie cookie(sessao);
-        if (!sessao.IsAuthenticated()) {            
+        /*if (!sessao.IsAuthenticated()) {            
             response.setStatus(Poco::Net::HTTPServerResponse::HTTP_UNAUTHORIZED);
             response.send() << "A sessão não está ativa.";
             return;
-        }
+        }*/
         FornecedoresViews fornecedoresViews(sessao, cookie);
         fornecedoresViews.handleRequest(request, response);
     }
@@ -132,11 +170,11 @@ public:
         try {
             Session sessao;
             Cookie cookie(sessao);
-            if (!sessao.IsAuthenticated()) {
+            /*if (!sessao.IsAuthenticated()) {
                 response.setStatus(HTTPServerResponse::HTTP_UNAUTHORIZED);
                 response.send() << "A sessão não está ativa.";
                 return;
-            }
+            }*/
             PedidosViews pedidosViews(sessao, cookie);
             pedidosViews.handleRequest(request, response);
         } catch (const std::exception& e) {
@@ -146,17 +184,33 @@ public:
     }
 };
 
+
+/*
+##########################################
+   FIM VIEWS DA COMPRAS
+##########################################
+*/
+
+
+
+
+/*
+##########################################
+   VIEWS DA EMPRESA
+##########################################
+*/
+
 class ControleDePontoPage : public HTTPRequestHandler {
 public:
     void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override {
         try {
             Session sessao;
             Cookie cookie(sessao);
-            if (!sessao.IsAuthenticated()) {
+            /*if (!sessao.IsAuthenticated()) {
                 response.setStatus(HTTPServerResponse::HTTP_UNAUTHORIZED);
                 response.send() << "A sessão não está ativa.";
                 return;
-            }
+            }*/
             ControleDePontoViews controleDePontoViews(sessao, cookie);
             controleDePontoViews.handleRequest(request, response);
         } catch (const std::exception& e) {
@@ -172,12 +226,13 @@ public:
         try {
             Session sessao;
             Cookie cookie(sessao);
-            if (!sessao.IsAuthenticated()) {
+            /*if (!sessao.IsAuthenticated()) {
                 response.setStatus(HTTPServerResponse::HTTP_UNAUTHORIZED);
                 response.send() << "A sessão não está ativa.";
                 return;
-            }
-            ContabilidadeViews contabilidadeViews(sessao, cookie);
+            }*/
+            //ContabilidadeViews contabilidadeViews(sessao, cookie);
+            ContabilidadeViews contabilidadeViews;
             contabilidadeViews.handleRequest(request, response);
         } catch (const std::exception& e) {
             response.setStatus(HTTPServerResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -186,6 +241,12 @@ public:
     }
 };
 
+/*
+##########################################
+   FIM VIEWS DA EMPRESA
+##########################################
+*/
+
 class MyRequestHandlerFactory: public HTTPRequestHandlerFactory
 {
 public:
@@ -193,9 +254,7 @@ public:
     HTTPRequestHandler* createRequestHandler(const HTTPServerRequest& request) override {
         Poco::URI uri(request.getURI());
         const std::string& path = uri.getPath();
-        Session session;
-        std::cerr << "Session: " << session.IsAuthenticated() << std::endl;
-
+        
         if (path == "/login") {
             std::cerr << "Request no Login" << std::endl;
             return new LoginPage();
@@ -218,6 +277,9 @@ public:
             return new ContabilidadePage();
         }else if (path == "/logout") {
             return new LogoutPage();
+        }else if(path == "/removerProduto"){
+            std::cerr << "Request do Remover Produto Page" << std::endl;
+            return new RemoverProdutoPage();
         }
         else {
             throw Poco::NotFoundException("Página não encontrada");
@@ -248,10 +310,4 @@ int main(int argc, char** argv) {
     return app.run(argc, argv);
 }
 
-// g++ -o server server.cpp views/cadastro/cadastrar.cpp views/home/home.cpp views/login/login.cpp -lPocoNet -lPocoUtil -lPocoFoundation -lpqxx -lpq
 
-// http://localhost:9980/
-
-// g++ *.cpp -o server -lPocoNet -lPocoUtil -lPocoFoundation -lpqxx -lpq
-
-// g++ *.cpp -o server -I. -lPocoNet -lPocoUtil -lPocoFoundation -lpqxx -lpq

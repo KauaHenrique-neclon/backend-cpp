@@ -1,0 +1,47 @@
+.tabelaEstoque {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.tabelaEstoque table {
+    width: 90%;
+    max-width: 900px;
+    border-collapse: collapse;
+    background: #020617;
+    color: #f1f5f9;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+.tabelaEstoque th {
+    background: #1e293b;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.tabelaEstoque td {
+    padding: 12px;
+    border-top: 1px solid #1e293b;
+}
+
+.tabelaEstoque tr:hover {
+    background: #1e293b;
+}
+
+.tabelaEstoque tbody tr:nth-child(even) {
+    background: #020617;
+}
+
+.tabelaEstoque tbody tr:nth-child(odd) {
+    background: #020617;
+}
+
+.tabelaEstoque td[colspan] {
+    text-align: center;
+    padding: 20px;
+    color: #94a3b8;
+}

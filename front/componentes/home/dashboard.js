@@ -28,10 +28,12 @@ const Dashboard = () => {
         </span>
         <span>
             <p>Pontos de enteda e saida</p>
+            <p>300</p>
            <Link href="/empresa/visualizarPonto">Ver Pontos</Link>
         </span>
         <span>
             <p>Contabilidade</p>
+            <p>233</p>
            <Link href="/empresa/financas/contabilidade">Ver Fornecedores</Link>
         </span>
     </div>

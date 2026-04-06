@@ -2,17 +2,12 @@
 
 void EstoqueViews::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
     
-    cookieMiddleware.cookieMiddleware(request, response);
-
-    std::cout << "\n==============================" << std::endl;
-    std::cout << "[DEBUG] Nova requisição" << std::endl;
-    std::cout << "[DEBUG] Método: " << request.getMethod() << std::endl;
-    std::cout << "[DEBUG] URI: " << request.getURI() << std::endl;
-
-    response.set("Access-Control-Allow-Origin", "http://localhost:3000");
+    //cookieMiddleware.cookieMiddleware(request, response);
+    
+    /*response.set("Access-Control-Allow-Origin", "http://localhost:3000");
     response.set("Access-Control-Allow-Credentials", "true");
     response.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.set("Access-Control-Allow-Headers", "Content-Type");*/
 
     if(request.getMethod() == Poco::Net::HTTPRequest::HTTP_OPTIONS) {
         response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
@@ -38,7 +33,6 @@ void EstoqueViews::Get(Poco::Net::HTTPServerResponse& response){
             response.send() << "{\"error\": \"Acesso Negado\"}";
             return;
         }*/
-
 
         response.setContentType("application/json");
 

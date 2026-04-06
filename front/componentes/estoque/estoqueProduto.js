@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../styles/componentes/estoque/estoqueProduto.css';
 
 const EstoqueProduto = () => {
   const [dadosEstoque, setDadosEstoque] = useState([]);
