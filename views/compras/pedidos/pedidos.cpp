@@ -4,7 +4,18 @@
 void PedidosViews::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
     
     cookieMiddleware.cookieMiddleware(request, response);
-    
+
+     
+    response.set("Access-Control-Allow-Origin", "http://localhost:3000");
+    response.set("Access-Control-Allow-Credentials", "true");
+    response.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+
+    if(request.getMethod() == Poco::Net::HTTPRequest::HTTP_OPTIONS) {
+        response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
+        response.send();
+        return;
+    }
     if (request.getMethod() == Poco::Net::HTTPServerRequest::HTTP_POST){
         Post(request, response);
     }
@@ -70,32 +81,32 @@ void PedidosViews::Get(Poco::Net::HTTPServerResponse& response){
         std::vector<Produto> dadosEstoque = modelEstoque.BuscandoDados();
         std::vector<Fornecedor> dadosFornecedores = modelEstoque.BuscandoFornecedores();
 
-        std::stringstream jsonData;
-        jsonData << "{\"estoque\":[";
-        for (const auto& produto : dadosEstoque) {
-            jsonData << "{\"id\":\"" << produto.id << "\",";
-            jsonData << "\"nome\":\"" << produto.nome << "\",";
-            jsonData << "\"descricao\":\"" << produto.descricao << "\",";
-            jsonData << "\"codigo\":\"" << produto.codigo << "\",";
-            jsonData << "\"unidademedida\":\"" << produto.unidademedida << "\"},";
-        }
-        if (!dadosEstoque.empty()) {
-            jsonData.seekp(-1, std::ios_base::cur);
-        }
-        jsonData << "],\"fornecedores\":[";
-        for (const auto& fornecedor : dadosFornecedores) {
-            jsonData << "{\"id\":\"" << fornecedor.id << "\",";
-            jsonData << "\"nome\":\"" << fornecedor.nome << "\",";
-            jsonData << "\"endereço\":\"" << fornecedor.endereco << "\",";
-            jsonData << "\"telefone\":\"" << fornecedor.telefone << "\",";
-            jsonData << "\"email\":\"" << fornecedor.email << "\"},";
-        }
-        if (!dadosFornecedores.empty()) {
-            jsonData.seekp(-1, std::ios_base::cur);
-        }
-        jsonData << "]}";
+        Poco::JSON::Array arrayEstoque;
 
-        response.send() << jsonData.str();
+        for (const auto& produto : dadosEstoque) {
+            Poco::JSON::Object obj;
+            obj.set("id", produto.id);
+            obj.set("nome", produto.nome);
+            obj.set("descricao", produto.descricao);
+            obj.set("codigo", produto.codigo);
+            obj.set("unidademedida", produto.unidademedida);
+            arrayEstoque.add(obj);
+        };
+        Poco::JSON::Array arrayFornecedor;
+        for (const auto& fornecedor : dadosFornecedores) {
+            Poco::JSON::Object obj;
+            obj.set("id", fornecedor.id);
+            obj.set("nome", fornecedor.nome);
+            obj.set("endereco", fornecedor.endereco);
+            obj.set("telefone", fornecedor.telefone);
+            obj.set("email", fornecedor.email);
+            arrayFornecedor.add(obj);
+        }
+        Poco::JSON::Object responseObj;
+        responseObj.set("dadosEstoque", arrayEstoque);
+        responseObj.set("dadosFornecedor", arrayFornecedor);
+        std::ostream& ostr = response.send();
+        Poco::JSON::Stringifier::stringify(responseObj, ostr);
     } catch(std::exception& e){
         response.setStatus(Poco::Net::HTTPResponse::HTTP_INTERNAL_SERVER_ERROR);
         response.setContentType("application/json");

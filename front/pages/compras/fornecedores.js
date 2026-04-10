@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import CadastroFornecedores from '../../componentes/compras/cadastroFornecedores';
 import ListaFornecedores from '../../componentes/compras/listaFornecedores';
-import '../../styles/compras/fornecedores.css'
+import '../../styles/compras/fornecedores.css';
 
 const Fornecedores = () => {
   const [showCadastro, setShowCadastro] = useState(false);
-  const [showLista, setShowLista] = useState(false);
+  const [showLista, setShowLista] = useState(true);
 
   const handleCadastroClick = () => {
     setShowCadastro(true);

@@ -15,6 +15,7 @@
 
 // rotas
 //#include "rotas/empresa/empresaRoute.hpp"
+#include "rotas/routesFactory.hpp"
 
 // importando os views 
 #include "views/login/login.hpp"
@@ -35,6 +36,8 @@ using namespace Poco::Util;
 
 std::unordered_map<std::string, Session> sessions;
 
+
+/*
 class HomePage : public HTTPRequestHandler {
 public:
     void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override {
@@ -44,7 +47,7 @@ public:
             response.setContentType("application/json");
             response.send() << R"({"error":"sessão não ativa"})";
             return;
-        }*/
+        }
         std::cout << "Acesso ao url Home" << std::endl;
         response.setStatus(HTTPServerResponse::HTTP_OK);
         response.setContentType("application/json");
@@ -96,7 +99,7 @@ public:
             response.setStatus(Poco::Net::HTTPServerResponse::HTTP_UNAUTHORIZED);
             response.send() << "A sessão não está ativa.";
             return;
-        }*/
+        }
         CadastrarProdutoView cadastroProduto(sessao, cookie);
         cadastroProduto.handleRequest(request, response);
     }
@@ -112,7 +115,7 @@ public:
             response.setStatus(Poco::Net::HTTPServerResponse::HTTP_UNAUTHORIZED);
             response.send() << "A sessão não está ativa.";
             return;
-        }*/
+        }
         EstoqueViews estoqueView(sessao, cookie);
         estoqueView.handleRequest(request, response);
     }
@@ -127,7 +130,7 @@ class RemoverProdutoPage : public HTTPRequestHandler{
             response.setStatus(Poco::Net::HTTPServerResponse::HTTP_UNAUTHORIZED);
             response.send() << "A sessão não está ativa.";
             return;
-        }*/
+        }
         RemoverProdutoViews removerProdutoView;
         removerProdutoView.handleRequest(request, response);
     }
@@ -137,7 +140,7 @@ class RemoverProdutoPage : public HTTPRequestHandler{
 ################################################
       FIM DA VIEWS DO ESTOQUE
 ################################################
-*/
+
 
 
 
@@ -146,7 +149,7 @@ class RemoverProdutoPage : public HTTPRequestHandler{
 ##########################################
    VIEWS DA COMPRAS
 ##########################################
-*/
+
 
 class FornecedoresPage : public HTTPRequestHandler{
 public:
@@ -157,7 +160,7 @@ public:
             response.setStatus(Poco::Net::HTTPServerResponse::HTTP_UNAUTHORIZED);
             response.send() << "A sessão não está ativa.";
             return;
-        }*/
+        }
         FornecedoresViews fornecedoresViews(sessao, cookie);
         fornecedoresViews.handleRequest(request, response);
     }
@@ -174,7 +177,7 @@ public:
                 response.setStatus(HTTPServerResponse::HTTP_UNAUTHORIZED);
                 response.send() << "A sessão não está ativa.";
                 return;
-            }*/
+            }
             PedidosViews pedidosViews(sessao, cookie);
             pedidosViews.handleRequest(request, response);
         } catch (const std::exception& e) {
@@ -189,7 +192,7 @@ public:
 ##########################################
    FIM VIEWS DA COMPRAS
 ##########################################
-*/
+
 
 
 
@@ -198,7 +201,7 @@ public:
 ##########################################
    VIEWS DA EMPRESA
 ##########################################
-*/
+
 
 class ControleDePontoPage : public HTTPRequestHandler {
 public:
@@ -210,7 +213,7 @@ public:
                 response.setStatus(HTTPServerResponse::HTTP_UNAUTHORIZED);
                 response.send() << "A sessão não está ativa.";
                 return;
-            }*/
+            }
             ControleDePontoViews controleDePontoViews(sessao, cookie);
             controleDePontoViews.handleRequest(request, response);
         } catch (const std::exception& e) {
@@ -230,7 +233,7 @@ public:
                 response.setStatus(HTTPServerResponse::HTTP_UNAUTHORIZED);
                 response.send() << "A sessão não está ativa.";
                 return;
-            }*/
+            }
             //ContabilidadeViews contabilidadeViews(sessao, cookie);
             ContabilidadeViews contabilidadeViews;
             contabilidadeViews.handleRequest(request, response);
@@ -247,6 +250,8 @@ public:
 ##########################################
 */
 
+
+/*
 class MyRequestHandlerFactory: public HTTPRequestHandlerFactory
 {
 public:
@@ -288,6 +293,7 @@ public:
 private:
     std::string _basePath;
 };
+*/
 
 class MyServer : public ServerApplication {
 protected:

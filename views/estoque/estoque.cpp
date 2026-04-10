@@ -4,10 +4,10 @@ void EstoqueViews::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Ne
     
     //cookieMiddleware.cookieMiddleware(request, response);
     
-    /*response.set("Access-Control-Allow-Origin", "http://localhost:3000");
+    response.set("Access-Control-Allow-Origin", "http://localhost:3000");
     response.set("Access-Control-Allow-Credentials", "true");
     response.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    response.set("Access-Control-Allow-Headers", "Content-Type");*/
+    response.set("Access-Control-Allow-Headers", "Content-Type");
 
     if(request.getMethod() == Poco::Net::HTTPRequest::HTTP_OPTIONS) {
         response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);

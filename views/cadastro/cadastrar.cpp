@@ -12,12 +12,12 @@ void CadastrarView::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::N
 
 void CadastrarView::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response) {
     try {
-        if (!sessao.IsAuthenticated()) {
+        /*if (!sessao.IsAuthenticated()) {
             response.setStatus(Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED);
             response.setContentType("application/json");
             response.send() << "{\"error\": \"Acesso Negado\"}";
             return;
-        }
+        }*/
 
         Poco::JSON::Parser parser;
         Poco::Dynamic::Var result = parser.parse(request.stream());

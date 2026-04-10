@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../styles/compras/cadastroFornecedores.css'
+import '../../styles/compras/cadastroFornecedores.css'
 
 
 
@@ -24,7 +24,7 @@ const CadastroFornecedores = () => {
         e.preventDefault();
 
         try{
-            const response = await fetch('',{
+            const response = await fetch(`${apiUrl}/fornecedores`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

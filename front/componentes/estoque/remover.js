@@ -33,7 +33,7 @@ const RemoverProduto = () => {
     useEffect(() => {
         const fetcDadosRemover = async () => {
         try{
-            const response = await fetch(`${apiUrl}/removerProduto`, {
+            const response = await fetch(`${apiUrl}/estoque/remover`, {
                 method: 'GET',
                 credentials: 'include',
             });

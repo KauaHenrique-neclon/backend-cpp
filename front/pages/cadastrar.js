@@ -23,7 +23,7 @@ const Cadastrar = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-        const response = await fetch('http://localhost:9980/cadastrar', {
+        const response = await fetch(`${apiUrl}/cadastrar`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ import RemoverProduto from '../../componentes/estoque/remover';
 
 const estoque = () => {
     const [showCadastro, setShowCadastro] = useState(false);
-    const [showEstoque, setShowEstoque] = useState(false);
+    const [showEstoque, setShowEstoque] = useState(true);
     const [showRemover, setShowRemover] = useState(false);
 
     const handleCadastroClick = () =>{

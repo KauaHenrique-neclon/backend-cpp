@@ -21,7 +21,7 @@ const CadastroProduto = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
-            const response = await fetch(`${apiUrl}/cadastrarProduto`, {
+            const response = await fetch(`${apiUrl}/estoque/cadastrar`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

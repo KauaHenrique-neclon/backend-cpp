@@ -12,7 +12,7 @@ const EstoqueProduto = () => {
     const fetchDadosEstoque = async () => {
       try {
         console.log(apiUrl);
-        const response = await fetch(`${apiUrl}/Estoque`,{
+        const response = await fetch(`${apiUrl}/estoque`,{
             method: 'GET',
             credentials: 'include',
         });

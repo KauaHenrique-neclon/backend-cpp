@@ -139,6 +139,7 @@ bool ModelEstoque::Fornecedores(const Fornecedor& fornecedor) {
 std::vector<Fornecedor> ModelEstoque::BuscandoFornecedores() {
     std::vector<Fornecedor> fornecedores;
     try {
+        std::cout << "[DEBUG] Dentro do BuscandoFornecedores" << std::endl;
         pqxx::work txn(*conn);
         pqxx::result res = txn.exec("SELECT id, nome, endereco, telefone, email FROM fornecedores");
         for (auto row : res) {
@@ -149,7 +150,8 @@ std::vector<Fornecedor> ModelEstoque::BuscandoFornecedores() {
             fornecedor.telefone = row["telefone"].as<std::string>();
             fornecedor.email = row["email"].as<std::string>();
             fornecedores.push_back(fornecedor);
-        }
+        };
+        std::cout << "[DEBUG] finalizando do BuscandoFornecedores" << std::endl;
         txn.commit();
     } catch (const std::exception &e) {
         std::cerr << "Erro ao buscar fornecedores: " << e.what() << std::endl;

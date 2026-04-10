@@ -5,6 +5,7 @@ views/estoque/cadastrarProduto.cpp \
 views/estoque/estoque.cpp \
 views/estoque/removerProduto/removerProduto.cpp \
 views/compras/fornecedores/fornecedores.cpp \
+views/compras/fornecedores/listaFornecedores.cpp \
 views/compras/pedidos/pedidos.cpp \
 views/empresa/financas/contabilidade/contabilidade.cpp \
 session/sessao.cpp middleware/cookie.cpp \

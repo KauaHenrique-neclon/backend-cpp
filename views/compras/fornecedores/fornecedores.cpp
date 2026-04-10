@@ -1,25 +1,34 @@
 #include "fornecedores.hpp"
 
 void FornecedoresViews::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
-    if (request.getMethod() == Poco::Net::HTTPServerRequest::HTTP_POST){
-        Post(request, response);
+    //cookieMiddleware.cookieMiddleware(request, response);
+    
+    response.set("Access-Control-Allow-Origin", "http://localhost:3000");
+    response.set("Access-Control-Allow-Credentials", "true");
+    response.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+
+    if(request.getMethod() == Poco::Net::HTTPRequest::HTTP_OPTIONS) {
+        response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
+        response.send();
+        return;
     }
-    else if (request.getMethod() == Poco::Net::HTTPServerRequest::HTTP_GET){
-        Get(response);
-    } else{
-        response.setStatus(Poco::Net::HTTPServerResponse::HTTP_NOT_IMPLEMENTED);
+    if(request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST){
+        Post(request ,response);
+    } else {
+        response.setStatus(Poco::Net::HTTPResponse::HTTP_NOT_IMPLEMENTED);
         response.send();
     }
 }
 
 void FornecedoresViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
     try{
-        if(!sessao.IsAuthenticated()) {
+        /*if(!sessao.IsAuthenticated()) {
             response.setStatus(Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED);
             response.setContentType("application/json");
             response.send() << "{\"error\": \"Acesso Negado\"}";
             return;
-        }
+        }*/
         std::string body;
         Poco::JSON::Parser parser;
         Poco::Dynamic::Var result = parser.parse(request.stream());
@@ -75,12 +84,12 @@ void FornecedoresViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::H
 
 void FornecedoresViews::Get(Poco::Net::HTTPServerResponse& response){
     try{
-        if(!sessao.IsAuthenticated()) {
+        /*if(!sessao.IsAuthenticated()) {
             response.setStatus(Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED);
             response.setContentType("application/json");
             response.send() << "{\"error\": \"Acesso Negado\"}";
             return;
-        }
+        }*/
         ModelEstoque modelEstoque;
         std::vector<Fornecedor> dadosFornecedores = modelEstoque.BuscandoFornecedores();
 
