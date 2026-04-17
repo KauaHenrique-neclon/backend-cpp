@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0f172a;
+  color: #e2e8f0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.Pedidos-all {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #111827;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.Pedidos-all h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #f8fafc;
+}
+
+.Pedidos-all form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.Pedidos-all select,
+.Pedidos-all input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background-color: #0b1220;
+  color: #e2e8f0;
+  outline: none;
+}
+
+.Pedidos-all select:focus,
+.Pedidos-all input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.Pedidos-all button {
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #3b82f6;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.Pedidos-all button:hover {
+  background-color: #2563eb;
+}
+
+.Pedidos-all p {
+  margin-top: 10px;
+  text-align: center;
+}

@@ -14,7 +14,7 @@ const Dashboard = () => {
         <span>
             <p>Total de pessoas cadastradas</p>
             <p>400</p>
-            <Link href="/cadastrar">Ir Tabela</Link>
+            <Link href="user/cadastrar">Ir Tabela</Link>
         </span>
         <span>
             <p>Total de Pedidos ativos</p>

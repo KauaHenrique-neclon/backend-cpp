@@ -6,6 +6,7 @@
 
 // importanto views
 #include "../../views/cadastro/cadastrar.hpp"
+#include "../../views/cadastro/tabelaUser.hpp"
 
 // importando cookies
 #include "session/sessao.hpp"
@@ -22,8 +23,36 @@ public:
     void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override{
         Session sessao;
         Cookie cookie(sessao);
+
+        /*if (!sessao.IsAuthenticated()) {            
+        response.setStatus(Poco::Net::HTTPServerResponse::HTTP_UNAUTHORIZED);
+        response.send() << "A sessão não está ativa.";
+        return;
+        }*/
+
+        CadastrarView cadastrarView(sessao);
+        cadastrarView.handleRequest(request, response);
     }
 };
+
+
+class ListaUserPage : public HTTPRequestHandler{
+public:
+    void handleRequest(HTTPServerRequest& request, HTTPServerResponse& response) override{
+        Session sessao;
+        Cookie cookie(sessao);
+
+        /*if (!sessao.IsAuthenticated()) {            
+        response.setStatus(Poco::Net::HTTPServerResponse::HTTP_UNAUTHORIZED);
+        response.send() << "A sessão não está ativa.";
+        return;
+        }*/
+
+        TabelaUserView tabelaUserView(sessao);
+        tabelaUserView.handleRequest(request, response);
+    }
+};
+
 
 
 
@@ -32,5 +61,8 @@ using RouteMap = std::unordered_map<std::string, std::function<Poco::Net::HTTPRe
 inline void registerCadastroRoutes(RouteMap& routes) {
     routes["/cadastrar"] = []() -> HTTPRequestHandler* {
         return new CadastrarPage();
+    };
+    routes["/tabelaUser"] = []() -> HTTPRequestHandler* {
+        return new ListaUserPage();
     };
 }

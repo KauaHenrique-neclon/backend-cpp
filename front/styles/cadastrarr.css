@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0f172a;
+  color: #e2e8f0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+div {
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 15px;
+  background-color: #0b1835;
+  border-radius: 8px;
+}
+
+h2 {
+  text-align: center;
+  margin: 0 0 5px 0;
+  color: #f8fafc;
+}
+
+.label-dados {
+  margin-bottom: 5px;
+}
+
+.label-dados label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 13px;
+}
+
+.label-dados input {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #334155;
+  background-color: #0b1220;
+  color: #e2e8f0;
+  outline: none;
+}
+
+.label-dados input:focus {
+  border-color: #3b82f6;
+}
+
+button {
+  width: 100%;
+  display: block;
+  padding: 8px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 4px;
+  background-color: #3b82f6;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #2563eb;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}

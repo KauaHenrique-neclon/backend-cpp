@@ -25,6 +25,12 @@ public:
         Session sessao;
         Cookie cookie(sessao);
 
+        /*if (!sessao.IsAuthenticated()) {            
+        response.setStatus(Poco::Net::HTTPServerResponse::HTTP_UNAUTHORIZED);
+        response.send() << "A sessão não está ativa.";
+        return;
+        }*/
+
         EstoqueViews estoqueView(sessao, cookie);
         estoqueView.handleRequest(request, response);
     }

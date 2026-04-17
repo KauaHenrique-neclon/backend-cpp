@@ -1,8 +1,21 @@
 #include "cadastrar.hpp"
 
 void CadastrarView::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
-    if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST) {
-        Post(request, response);
+   
+    //cookieMiddleware.cookieMiddleware(request, response);
+    
+    response.set("Access-Control-Allow-Origin", "http://localhost:3000");
+    response.set("Access-Control-Allow-Credentials", "true");
+    response.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+
+    if(request.getMethod() == Poco::Net::HTTPRequest::HTTP_OPTIONS) {
+        response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
+        response.send();
+        return;
+    }
+    if(request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST){
+        Post(request ,response);
     } else {
         response.setStatus(Poco::Net::HTTPResponse::HTTP_NOT_IMPLEMENTED);
         response.send();
@@ -50,9 +63,15 @@ void CadastrarView::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPS
             return;
         }
 
-
-        ModelCadastrar modelCadastrar(username, nome, senha, dataNascimento, email, cidade);
-        bool resultado = modelCadastrar.inserirDadosCadastro();
+        ModelCadastrar modelCadastrar;
+        Cadastro cadastro;
+        cadastro.nome = nome;
+        cadastro.username = username;
+        cadastro.email = email;
+        cadastro.senha = senha;
+        cadastro.dataNascimento = dataNascimento;
+        cadastro.cidade = cidade;
+        bool resultado = modelCadastrar.inserirDadosCadastro(cadastro);
         if (resultado) {
             response.setStatus(Poco::Net::HTTPResponse::HTTP_CREATED);
             response.setContentType("application/json");

@@ -56,7 +56,7 @@ const CadastroProduto = () => {
                     <option value="perigoso">Perigoso</option>
                     <option value="livre">Livre</option>
             </select>
-            <button>Cadastrar Produto</button>
+            <button type="submit">Cadastrar Produto</button>
           </form>
         </div>
     </div>

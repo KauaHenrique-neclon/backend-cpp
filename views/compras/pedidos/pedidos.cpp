@@ -3,7 +3,7 @@
 
 void PedidosViews::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
     
-    cookieMiddleware.cookieMiddleware(request, response);
+    //cookieMiddleware.cookieMiddleware(request, response);
 
      
     response.set("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -30,12 +30,12 @@ void PedidosViews::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Ne
 
 void PedidosViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
     try{
-        if(!sessao.IsAuthenticated()){
+        /*if(!sessao.IsAuthenticated()){
             response.setStatus(Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED);
             response.setContentType("application/json");
             response.send() << "{\"error\": \"Acesso Negado\"}";
             return;
-        }
+        }*/
         std::string body;
         Poco::JSON::Parser parser;
         Poco::Dynamic::Var result = parser.parse(request.stream());
@@ -70,18 +70,36 @@ void PedidosViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPSe
 
 void PedidosViews::Get(Poco::Net::HTTPServerResponse& response){
     try{
-        if(!sessao.IsAuthenticated()) {
+        /*if(!sessao.IsAuthenticated()) {
             response.setStatus(Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED);
             response.setContentType("application/json");
             response.send() << "{\"error\": \"Acesso Negado\"}";
             return;
-        }
+        }*/
         response.setContentType("application/json");
         ModelEstoque modelEstoque;
         std::vector<Produto> dadosEstoque = modelEstoque.BuscandoDados();
         std::vector<Fornecedor> dadosFornecedores = modelEstoque.BuscandoFornecedores();
 
+        std::cout << "DEBUG: Dentro do PedidosViews Get" << std::endl;
+
         Poco::JSON::Array arrayEstoque;
+
+        std::cout << "=== ESTOQUE ===" << std::endl;
+        for (const auto& produto : dadosEstoque) {
+            std::cout << "ID: " << produto.id
+              << ", Nome: " << produto.nome
+              << ", Codigo: " << produto.codigo
+              << std::endl;
+        }
+
+        std::cout << "\n=== FORNECEDORES ===" << std::endl;
+        for (const auto& fornecedor : dadosFornecedores) {
+            std::cout << "ID: " << fornecedor.id
+              << ", Nome: " << fornecedor.nome
+              << ", Email: " << fornecedor.email
+              << std::endl;
+            }
 
         for (const auto& produto : dadosEstoque) {
             Poco::JSON::Object obj;
@@ -102,6 +120,9 @@ void PedidosViews::Get(Poco::Net::HTTPServerResponse& response){
             obj.set("email", fornecedor.email);
             arrayFornecedor.add(obj);
         }
+
+        std::cout << "DEBUG: Passou os 2 arrays" << std::endl;
+
         Poco::JSON::Object responseObj;
         responseObj.set("dadosEstoque", arrayEstoque);
         responseObj.set("dadosFornecedor", arrayFornecedor);

@@ -1,14 +1,33 @@
 #include "estoqueModel.hpp"
 #include <iostream>
 #include <stdexcept>
+#include <cstdlib> // Para std::getenv
+#include "env/dotenv.h"
 
-// Construtor da Class
+
 pqxx::connection* ModelEstoque::conn = nullptr;
 
+
+// env e variaveis
+char* db_host = std::getenv("DB_HOST");
+char* db_user = std::getenv("DB_USER");
+char* db_name = std::getenv("DB_NAME");
+char* db_password = std::getenv("DB_PASSWORD");
+
+
+// Construtor da Class
 ModelEstoque::ModelEstoque() {
     if (!conn) {
         try {
-            conn = new pqxx::connection("dbname=erp user=postgres password=5115 host=localhost");
+            if (!db_host || !db_user || !db_name || !db_password) {
+                throw std::runtime_error("Variaveis de ambiente não definidas.");
+            }
+            std::string conn_str =
+                "dbname=" + std::string(db_name) +
+                " user=" + std::string(db_user) +
+                " password=" + std::string(db_password) +
+                " host=" + std::string(db_host);
+            conn = new pqxx::connection(conn_str);
             if (!conn->is_open()) {
                 throw std::runtime_error("Falha na conexão com o banco.");
             }
@@ -151,7 +170,6 @@ std::vector<Fornecedor> ModelEstoque::BuscandoFornecedores() {
             fornecedor.email = row["email"].as<std::string>();
             fornecedores.push_back(fornecedor);
         };
-        std::cout << "[DEBUG] finalizando do BuscandoFornecedores" << std::endl;
         txn.commit();
     } catch (const std::exception &e) {
         std::cerr << "Erro ao buscar fornecedores: " << e.what() << std::endl;

@@ -1,6 +1,7 @@
 g++ main.cpp config/conect.cpp \
 views/login/login.cpp \
 views/cadastro/cadastrar.cpp \
+views/cadastro/tabelaUser.cpp \
 views/estoque/cadastrarProduto.cpp \
 views/estoque/estoque.cpp \
 views/estoque/removerProduto/removerProduto.cpp \
