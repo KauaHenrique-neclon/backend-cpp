@@ -9,7 +9,7 @@ const MenuLateral = () => {
           <Link href="/empresa">Cadastrar</Link>
           <Link href="/login">Login</Link>
           <Link href="/estoque/estoque">Estoque</Link>
-          <Link href="/estoque/removerProduto">Remover Produto</Link>
+          <Link href="/estoque/estoque">Remover Produto</Link>
           <Link href="/compras/pedidos">Pedidos</Link>
       </nav>
   )

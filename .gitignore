@@ -7,4 +7,4 @@ backend_crow/
 index.html
 index.css
 server
-env/.env
+.env

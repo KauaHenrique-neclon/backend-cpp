@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../styles/cadastrarr.css'
+import '../../styles/user/cadastrarr.css';
 
 
 const Cadastrar = () => {

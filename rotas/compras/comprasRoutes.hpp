@@ -8,6 +8,7 @@
 #include "../../views/compras/fornecedores/fornecedores.hpp"
 #include "../../views/compras/pedidos/pedidos.hpp"
 #include "../../views/compras/fornecedores/listaFornecedores.hpp"
+#include "../../views/compras/pedidos/aprovarPedido.hpp"
 
 // importando cookies
 #include "session/sessao.hpp"
@@ -75,6 +76,31 @@ public:
     }
 };
 
+
+class AprovarPedidoPage : public HTTPRequestHandler 
+{
+    public:
+        void handleRequest(HTTPServerRequest &request, HTTPServerResponse &response)
+        {
+            try{
+                Session sessao;
+                Cookie cookie(sessao);
+                /*if (!sessao.IsAuthenticated()) {
+                    response.setStatus(HTTPServerResponse::HTTP_UNAUTHORIZED);
+                    response.send() << "A sessão não está ativa.";
+                    return;
+                }*/
+                AprovarPedidoViews aprovarPedidoView(sessao, cookie);
+                aprovarPedidoView.handleRequest(request, response);
+            }catch(const std::exception &e){
+                response.setStatus(HTTPServerResponse::HTTP_INTERNAL_SERVER_ERROR);
+                response.send() << "Erro interno do servidor.";
+            }
+        }
+};
+
+
+
 using RouteMap = std::unordered_map<std::string, std::function<Poco::Net::HTTPRequestHandler *()>>;
 
 inline void registerComprasRoutes(RouteMap &routes)
@@ -90,5 +116,8 @@ inline void registerComprasRoutes(RouteMap &routes)
     routes["/listaFornecedores"] = []() -> HTTPRequestHandler *
     {
         return new ListaFornecedoresPage();
+    };
+    routes["/aprovarPedido"] = []() -> HTTPRequestHandler * {
+        return new AprovarPedidoPage();
     };
 }

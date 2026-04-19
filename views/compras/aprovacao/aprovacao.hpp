@@ -11,7 +11,7 @@
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/JSON/Parser.h>
 #include <Poco/JSON/Object.h>
-#include "model/cadastrar/cadastrarModel.hpp"
+#include "../../model/compras/comprasModel.hpp"
 
 class AprovacaoViews {
 public:

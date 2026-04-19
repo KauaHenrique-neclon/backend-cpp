@@ -81,10 +81,9 @@ void PedidosViews::Get(Poco::Net::HTTPServerResponse& response){
         std::vector<Produto> dadosEstoque = modelEstoque.BuscandoDados();
         std::vector<Fornecedor> dadosFornecedores = modelEstoque.BuscandoFornecedores();
 
-        std::cout << "DEBUG: Dentro do PedidosViews Get" << std::endl;
-
         Poco::JSON::Array arrayEstoque;
 
+        /*
         std::cout << "=== ESTOQUE ===" << std::endl;
         for (const auto& produto : dadosEstoque) {
             std::cout << "ID: " << produto.id
@@ -100,6 +99,8 @@ void PedidosViews::Get(Poco::Net::HTTPServerResponse& response){
               << ", Email: " << fornecedor.email
               << std::endl;
             }
+
+        */
 
         for (const auto& produto : dadosEstoque) {
             Poco::JSON::Object obj;
@@ -120,8 +121,6 @@ void PedidosViews::Get(Poco::Net::HTTPServerResponse& response){
             obj.set("email", fornecedor.email);
             arrayFornecedor.add(obj);
         }
-
-        std::cout << "DEBUG: Passou os 2 arrays" << std::endl;
 
         Poco::JSON::Object responseObj;
         responseObj.set("dadosEstoque", arrayEstoque);

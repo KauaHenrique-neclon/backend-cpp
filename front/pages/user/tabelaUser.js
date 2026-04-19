@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react';
+import '../../styles/user/listaUser.css';
 
 const tabelaUser = () => {
     const [dadosUsuarios, setDadosUsuarios] = useState([]);
@@ -54,11 +55,11 @@ const tabelaUser = () => {
                 ) : (
                     dadosUsuarios.map((user) => (
                         <tr key={user.id}>
-                            <td>{user.nome}</td>
-                            <td>{user.username}</td>
-                            <td>{user.dataNascimento}</td>
-                            <td>{user.email}</td>
-                            <td>{user.cidade}</td>
+                            <td data-label="Nome">{user.nome}</td>
+                            <td data-label="Username">{user.username}</td>
+                            <td data-label="Nascimento">{user.dataNascimento}</td>
+                            <td data-label="Email">{user.email}</td>
+                            <td data-label="Cidade">{user.cidade}</td>
                         </tr>
                     ))
                 )}

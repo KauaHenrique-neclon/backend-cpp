@@ -39,7 +39,6 @@ const Pedidos = () => {
           throw new Error('Erro ao buscar dados');
         }
         const data = await response.json();
-        console.log("BACKEND DATA:", data);
         setDadosFornecedor(data.dadosFornecedor || []);
         setDadosEstoque(data.dadosEstoque || []);
       } catch (error) {

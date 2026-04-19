@@ -1,18 +1,20 @@
 #include "financasModel.hpp"
 #include <iostream>
 
-std::unique_ptr<pqxx::connection> FinancasModel::conn = nullptr;
 
+pqxx::connection* FinancasModel::conn = nullptr;
 
 void FinancasModel::conectar(){
-    if (!conn) {
-        conn = std::make_unique<pqxx::connection>(
-            "dbname=seubanco user=postgres password=123 host=localhost"
-        );
+    conn = bancoDados();
 
-        if (!conn->is_open()) {
-            throw std::runtime_error("Erro ao conectar ao banco de dados.");
-        }
+    if (conn == nullptr || !conn->is_open()) {
+        std::cerr << "Falha ao conectar ao banco." << std::endl;
+        return;
+    }
+    if (!conn->is_open()) {
+        std::cerr << "Conexão não abriu" << std::endl;
+        delete conn;
+        return;
     }
 }
 

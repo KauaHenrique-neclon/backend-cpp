@@ -3,9 +3,15 @@
 
 ModelPonto::ModelPonto() {
     conn = bancoDados();
-    if (!conn) {
-        std::cerr << "Falha ao conectar ao banco de dados no ModelEstoque." << std::endl;
-        throw std::runtime_error("Falha na conexão com o banco de dados.");
+
+    if (conn == nullptr || !conn->is_open()) {
+        std::cerr << "Falha ao conectar ao banco." << std::endl;
+        return;
+    }
+    if (!conn->is_open()) {
+        std::cerr << "Conexão não abriu" << std::endl;
+        delete conn;
+        return;
     }
 }
 

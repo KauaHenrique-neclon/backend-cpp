@@ -52,9 +52,9 @@ void TabelaUserView::Get(Poco::Net::HTTPServerResponse& response){
             Poco::JSON::Object obj;
             obj.set("id", cadastro.id);
             obj.set("nome", cadastro.nome);
-            obj.set("dataNascimento", cadastro.dataNascimento);
+            //obj.set("dataNascimento", cadastro.dataNascimento);
             obj.set("email", cadastro.email);
-            obj.set("cidade", cadastro.cidade);
+            //obj.set("cidade", cadastro.cidade);
             array.add(obj);
         }
 

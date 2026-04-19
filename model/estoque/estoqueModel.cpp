@@ -8,33 +8,18 @@
 pqxx::connection* ModelEstoque::conn = nullptr;
 
 
-// env e variaveis
-char* db_host = std::getenv("DB_HOST");
-char* db_user = std::getenv("DB_USER");
-char* db_name = std::getenv("DB_NAME");
-char* db_password = std::getenv("DB_PASSWORD");
-
-
 // Construtor da Class
 ModelEstoque::ModelEstoque() {
-    if (!conn) {
-        try {
-            if (!db_host || !db_user || !db_name || !db_password) {
-                throw std::runtime_error("Variaveis de ambiente não definidas.");
-            }
-            std::string conn_str =
-                "dbname=" + std::string(db_name) +
-                " user=" + std::string(db_user) +
-                " password=" + std::string(db_password) +
-                " host=" + std::string(db_host);
-            conn = new pqxx::connection(conn_str);
-            if (!conn->is_open()) {
-                throw std::runtime_error("Falha na conexão com o banco.");
-            }
-        } catch (const std::exception& e) {
-            std::cerr << "Erro de conexão: " << e.what() << std::endl;
-            throw;
-        }
+    conn = bancoDados();
+
+    if (conn == nullptr || !conn->is_open()) {
+        std::cerr << "Falha ao conectar ao banco." << std::endl;
+        return;
+    }
+    if (!conn->is_open()) {
+        std::cerr << "Conexão não abriu" << std::endl;
+        delete conn;
+        return;
     }
 }
 
@@ -87,13 +72,11 @@ std::vector<Estoque> ModelEstoque::BuscandoDadosEstoque() {
 bool ModelEstoque::InserindoProduto(const Produto& produto) {
     try {
         pqxx::work txn(*conn);
-        txn.exec("INSERT INTO produtos (nome, descricao, codigo, unidademedida, ativo) VALUES (" +
-                  txn.quote(produto.nome) + ", " +
-                  txn.quote(produto.descricao) + ", " +
-                  txn.quote(produto.codigo) + ", " +
-                  txn.quote(produto.unidademedida) + "), " +
-                  "true);"
-                );
+        txn.exec("INSERT INTO produtos (nome, descricao, codigo, unidademedida, ativo) VALUES (" +                
+                txn.quote(produto.nome) + ", " +
+                txn.quote(produto.descricao) + ", " +
+                txn.quote(produto.codigo) + ", " +
+                txn.quote(produto.unidademedida) + ", true);");
         txn.commit();
         return true;
     } catch (const std::exception &e) {
