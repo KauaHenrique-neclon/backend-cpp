@@ -28,12 +28,12 @@ void CadastrarProdutoView::handleRequest(Poco::Net::HTTPServerRequest& request, 
 
 void CadastrarProdutoView::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
     try{
-        if (!sessao.IsAuthenticated()) {
+        /*if (!sessao.IsAuthenticated()) {
             response.setStatus(Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED);
             response.setContentType("application/json");
             response.send() << "{\"error\": \"Acesso Negado\"}";
             return;
-        }
+        }*/
 
         std::string body;
 

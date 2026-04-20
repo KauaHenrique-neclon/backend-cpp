@@ -15,6 +15,7 @@
 #include <Poco/RegularExpression.h>
 #include "../../../session/sessao.hpp"
 #include "../../../middleware/cookie.hpp"
+#include "../../../model/compras/comprasModel.hpp"
 
 
 class PedidosViews {

@@ -46,7 +46,7 @@ public:
     bool EstoqueProduto(const Estoque& estoque);
     bool MovimentarProduto(int idproduto, const std::string& tipomovimentacao, const std::string& quantidade, const std::string& datamovimentacao);
     bool Fornecedores(const Fornecedor& fornecedor);
-    bool Pedidos(int idproduto,int idfornecedor, std::string datapedido, std::string statuspedido, std::string itempedido);
+    //bool Pedidos(int idproduto,int idfornecedor, std::string datapedido, std::string statuspedido);
     std::vector<Fornecedor> BuscandoFornecedores();
     bool RemoverProduto(int id);
 

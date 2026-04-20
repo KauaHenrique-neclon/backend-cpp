@@ -16,7 +16,7 @@ public:
     int idFornecedor;
     std::string datapedido;
     std::string status;
-    std::string item;
+    std::string nomeProduto;
 };
 
 

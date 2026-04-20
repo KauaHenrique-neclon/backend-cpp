@@ -44,7 +44,8 @@ void AprovarPedidoViews::Get(Poco::Net::HTTPServerResponse& response) {
         std::cout << "=== Pedidos ativos" << std::endl;
         for (const auto& pedido : dadosPedidos) {
             std::cout << "ID: " << pedido.id
-              << ", Status: " << pedido.status
+              << ", Nome: " << pedido.nomeProduto
+              << ", Data: " << pedido.datapedido
               << std::endl;
         }
 
@@ -54,8 +55,9 @@ void AprovarPedidoViews::Get(Poco::Net::HTTPServerResponse& response) {
             obj.set("id", pedido.id);
             obj.set("idFornecedor", pedido.idFornecedor);
             obj.set("idProduto", pedido.idProduto);
-            obj.set("item", pedido.item);
             obj.set("status", pedido.status);
+            obj.set("nomeProduto", pedido.nomeProduto);
+            obj.set("datapedido", pedido.datapedido);
             arrayPedidosEnviados.add(obj);
         }
 
@@ -72,5 +74,47 @@ void AprovarPedidoViews::Get(Poco::Net::HTTPServerResponse& response) {
 }
 
 void AprovarPedidoViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
-    
+    try{
+        /*if (!sessao.IsAuthenticated()) {
+            response.setStatus(Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.send() << "{\"error\": \"Acesso Negado\"}";
+            return;
+        }*/
+
+        response.setContentType("application/json");
+
+        std::string body;
+
+        Poco::JSON::Parser parser;
+        Poco::Dynamic::Var result = parser.parse(request.stream());
+        Poco::JSON::Object::Ptr objeto = result.extract<Poco::JSON::Object::Ptr>();
+
+        std::string idProduto = objeto->getValue<std::string>("idPedido");
+        std::string status = objeto->getValue<std::string>("status");
+        
+        // validar dados vindo do front
+        if (idProduto.empty() || status.empty()) {
+            response.setStatus(Poco::Net::HTTPResponse::HTTP_BAD_REQUEST);
+            response.setContentType("application/json");
+            response.send() << "{\"error\": \"Todos os campos são obrigatórios\"}";
+            return;
+        }
+        int idProdutoInt = std::stoi(idProduto);
+        ModelCompras modelCompras;
+        bool resultado = modelCompras.AprovandoPedido(idProdutoInt, status);
+        if (resultado) {
+            response.setStatus(Poco::Net::HTTPResponse::HTTP_CREATED);
+            response.setContentType("application/json");
+            response.send() << "{\"message\": \"Pedido com status mudado com sucesso\"}";
+        } else {
+            response.setStatus(Poco::Net::HTTPResponse::HTTP_INTERNAL_SERVER_ERROR);
+            response.setContentType("application/json");
+            response.send() << "{\"error\": \"Erro ao mudar pedido\"}";
+        }
+    }catch(const std::exception& e){
+        response.setStatus(Poco::Net::HTTPResponse::HTTP_INTERNAL_SERVER_ERROR);
+        response.setContentType("application/json");
+        response.send() << "{\"error\": \"Erro ao aprovar pedidos." << e.what() << "\"}";
+    }
 }

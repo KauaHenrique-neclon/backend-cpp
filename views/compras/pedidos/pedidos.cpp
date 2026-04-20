@@ -44,18 +44,24 @@ void PedidosViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPSe
         std::string idfornecedor = object->getValue<std::string>("idfornecedor");
         std::string datapedido = object->getValue<std::string>("datapedido");
         std::string status = object->getValue<std::string>("statuspedido");
-        std::string item = object->getValue<std::string>("itempedido");
 
         int idProdutoInt = std::stoi(idProduto);
         int idFornecedorInt = std::stoi(idfornecedor);
-        if(idProduto.empty() || idfornecedor.empty() || datapedido.empty() || status.empty() || item.empty()){
+        if(idProduto.empty() || idfornecedor.empty() || datapedido.empty() || status.empty()){
             response.setStatus(Poco::Net::HTTPResponse::HTTP_BAD_REQUEST);
             response.setContentType("application/json");
             response.send() << "{\"error\": \"Todos os campos são obrigatórios\"}";
             return;   
         }
-        ModelEstoque modelestoque;
-        bool resultado = modelestoque.Pedidos(idProdutoInt, idFornecedorInt, datapedido, status, item);
+        //ModelEstoque modelestoque;
+        //bool resultado = modelestoque.Pedidos(idProdutoInt, idFornecedorInt, datapedido, status);
+        ModelCompras modelCompras;
+        Pedido pedido;
+        pedido.idProduto = idProdutoInt;
+        pedido.idFornecedor = idFornecedorInt;
+        pedido.datapedido = datapedido;
+        pedido.status = status;
+        bool resultado = modelCompras.InserindoPedido(pedido);
         if(resultado){
             response.setStatus(Poco::Net::HTTPResponse::HTTP_CREATED);
             response.setContentType("application/json");

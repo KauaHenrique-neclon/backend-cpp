@@ -22,7 +22,11 @@ std::vector<Pedido> ModelCompras::BuscandoPedidoEnviado(){
     std::vector<Pedido> pedidos;
     try{
         pqxx::work conexao(*conn);
-        std::string query = "SELECT * FROM pedidos WHERE status = enviado";
+        std::string query = R"( SELECT pdd.id, pdd.idproduto,
+                pdd.idfornecedor, pdd.status, pdd.datapedido,
+                prod.nome AS nome
+                FROM pedido pdd JOIN produtos prod ON prod.id = pdd.idproduto
+                WHERE pdd.status = 'ENVIADO' )";
         pqxx::result res = conexao.exec(query);
         for (auto row : res) {
             Pedido pedido;
@@ -30,12 +34,13 @@ std::vector<Pedido> ModelCompras::BuscandoPedidoEnviado(){
             pedido.idProduto = row["idproduto"].as<int>();
             pedido.idFornecedor = row["idfornecedor"].as<int>();
             pedido.datapedido = row["datapedido"].as<std::string>();
-            pedido.item = row["item"].as<std::string>();
+            pedido.nomeProduto = row["nome"].as<std::string>();
+            pedido.status = row["status"].as<std::string>();
             pedidos.push_back(pedido);
         }
         conexao.commit();
     }catch(const std::exception &e){
-        std::cerr << "Erro ao buscar dados de produtos: " << e.what() << std::endl;
+        std::cerr << "Erro ao buscar dados de pedidos: " << e.what() << std::endl;
     }
     return pedidos;
 }
@@ -45,12 +50,11 @@ std::vector<Pedido> ModelCompras::BuscandoPedidoEnviado(){
 bool ModelCompras::InserindoPedido(const Pedido& pedido){
     try{
         pqxx::work conexao(*conn);
-        std::string query = "INSERT INTO pedido (idproduto, idfornecedor, datapedido, status, item) VALUES (" +
+        std::string query = "INSERT INTO pedido (idproduto, idfornecedor, datapedido, status) VALUES (" +
             conexao.quote(pedido.idProduto) + ", " +
             conexao.quote(pedido.idFornecedor) + ", " +
             conexao.quote(pedido.datapedido) + ", " +
-            conexao.quote(pedido.status) + ", " +
-            conexao.quote(pedido.item) + ");";
+            conexao.quote(pedido.status) + ");";
         conexao.commit();
         return true; 
     }catch(const std::exception &e){

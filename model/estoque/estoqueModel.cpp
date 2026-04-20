@@ -160,23 +160,22 @@ std::vector<Fornecedor> ModelEstoque::BuscandoFornecedores() {
     return fornecedores;
 }
 
-
-bool ModelEstoque::Pedidos(int idproduto, int idfornecedor, std::string datapedido, std::string statuspedido, std::string itempedido) {
+/*
+bool ModelEstoque::Pedidos(int idproduto, int idfornecedor, std::string datapedido, std::string statuspedido) {
     try {
         pqxx::work txn(*conn);
-        txn.exec("INSERT INTO pedidos (idproduto, idfornecedor, datapedido, statuspedido, itempedido) VALUES (" +
+        txn.exec("INSERT INTO pedidos (idproduto, idfornecedor, datapedido, status) VALUES (" +
                   txn.quote(idproduto) + ", " +
                   txn.quote(idfornecedor) + ", " +
                   txn.quote(datapedido) + ", " +
-                  txn.quote(statuspedido) + ", " +
-                  txn.quote(itempedido) + ");");
+                  txn.quote(statuspedido) + ";");
         txn.commit();
         return true;
     } catch (const std::exception &e) {
         std::cerr << "Erro ao processar pedido: " << e.what() << std::endl;
         return false;
     }
-}
+}*/
 
 
 bool ModelEstoque::RemoverProduto(int id){
