@@ -9,6 +9,7 @@ views/compras/fornecedores/fornecedores.cpp \
 views/compras/fornecedores/listaFornecedores.cpp \
 views/compras/pedidos/pedidos.cpp \
 views/compras/pedidos/aprovarPedido.cpp \
+views/compras/pedidos/verPedidosAceitos/pedidosAceitos.cpp \
 views/empresa/financas/contabilidade/contabilidade.cpp \
 session/sessao.cpp middleware/cookie.cpp \
 model/cadastrar/cadastrarModel.cpp \

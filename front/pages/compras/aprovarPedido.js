@@ -24,7 +24,6 @@ const AprovarPedido = () => {
                 if (!response.ok) {
                     throw new Error('Erro ao buscar dados');
                 }
-
                 const data = await response.json();
                 setDadosPedidosAprovar(data.dadosPedidos || []);
             } catch (err) {
@@ -68,6 +67,7 @@ const AprovarPedido = () => {
     if (loading) return <p>Carregando...</p>;
     if (error) return <p>Erro: {error}</p>;
 
+
     return (
         <div className="aprovar-pedido-all">
             <div className="h1-title">
@@ -92,8 +92,8 @@ const AprovarPedido = () => {
                                     <select value={statusPorPedido[pedido.id] || ''} onChange={(e) => setStatusPorPedido({
                                              ...statusPorPedido, [pedido.id]: e.target.value })}>
                                         <option value="">Selecione</option>
-                                        <option value="negado">Negado</option>
-                                        <option value="aprovada">Aprovada</option>
+                                        <option value="NEGADA">Negado</option>
+                                        <option value="APROVADA">Aprovada</option>
                                     </select>
                                     <button onClick={() => handleSubmit(pedido.id , statusPorPedido[pedido.id])}>
                                         Enviar

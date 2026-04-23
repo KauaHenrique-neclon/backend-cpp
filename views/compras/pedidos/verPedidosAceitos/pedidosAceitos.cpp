@@ -1,12 +1,10 @@
-#include "aprovarPedido.hpp"
+#include "pedidosAceitos.hpp"
 
+void PedidosAceitos::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response) {
+    
 
-void AprovarPedidoViews::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response) {
-    
-    
     //cookieMiddleware.cookieMiddleware(request, response);
-
-     
+    
     response.set("Access-Control-Allow-Origin", "http://localhost:3000");
     response.set("Access-Control-Allow-Credentials", "true");
     response.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -29,30 +27,27 @@ void AprovarPedidoViews::handleRequest(Poco::Net::HTTPServerRequest& request, Po
 }
 
 
-void AprovarPedidoViews::Get(Poco::Net::HTTPServerResponse& response) {
+void PedidosAceitos::Get(Poco::Net::HTTPServerResponse& response) {
     try{
-        /*if(!sessao.IsAuthenticated()) {
-        response.setStatus(Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED);
-        response.setContentType("application/json");
-        response.send() << "{\"error\": \"Acesso Negado\"}";
-        return;
-        }*/
-        response.setContentType("application/json");
-        ModelCompras modelCompras;
-        std::vector<Pedido> dadosPedidos = modelCompras.BuscandoPedidoEnviado();
-        
-        Poco::JSON::Array arrayPedidosEnviados;
 
-        /*std::cout << "=== Pedidos ativos" << std::endl;
-        for (const auto& pedido : dadosPedidos) {
+        response.setContentType("application/json");
+
+        ModelCompras modelCompras;
+        std::vector<Pedido> dadosPedidosAceitos = modelCompras.BuscandoPedidosAceitos();
+
+        Poco::JSON::Array arrayPedidosAceitos;
+
+        std::cout << "=== Pedidos ativos === " << std::endl;
+        for (const auto& pedido : dadosPedidosAceitos) {
             std::cout << "ID: " << pedido.id
               << ", Nome: " << pedido.nomeProduto
-              << ", Data: " << pedido.datapedido
+              << ", Status: " << pedido.status
+              << ", nome fornecedor: " << pedido.nomeFornecedor
               << std::endl;
-        }*/
+        }
 
-        // preparando o objeto
-        for (const auto& pedido : dadosPedidos) {
+        // preparar o objeto para enviar pro React
+        for (const auto& pedido : dadosPedidosAceitos) {
             Poco::JSON::Object obj;
             obj.set("id", pedido.id);
             obj.set("idFornecedor", pedido.idFornecedor);
@@ -60,14 +55,15 @@ void AprovarPedidoViews::Get(Poco::Net::HTTPServerResponse& response) {
             obj.set("status", pedido.status);
             obj.set("nomeProduto", pedido.nomeProduto);
             obj.set("datapedido", pedido.datapedido);
-            arrayPedidosEnviados.add(obj);
+            obj.set("nomeForn", pedido.nomeFornecedor);
+            arrayPedidosAceitos.add(obj);
         }
 
-        // envindo objeto
-        Poco::JSON::Object responseObg;
-        responseObg.set("dadosPedidos", arrayPedidosEnviados);
+        // envio do objeto
+        Poco::JSON::Object responseObj;
+        responseObj.set("dadosPedidoAceito", arrayPedidosAceitos);
         std::ostream& ostr = response.send();
-        Poco::JSON::Stringifier::stringify(responseObg, ostr);
+        Poco::JSON::Stringifier::stringify(responseObj, ostr);
     }catch(std::exception& e){
         response.setStatus(Poco::Net::HTTPResponse::HTTP_INTERNAL_SERVER_ERROR);
         response.setContentType("application/json");
@@ -75,15 +71,9 @@ void AprovarPedidoViews::Get(Poco::Net::HTTPServerResponse& response) {
     }
 }
 
-void AprovarPedidoViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response){
-    try{
-        /*if (!sessao.IsAuthenticated()) {
-            response.setStatus(Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.send() << "{\"error\": \"Acesso Negado\"}";
-            return;
-        }*/
 
+void PedidosAceitos::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response) {
+    try{
         response.setContentType("application/json");
 
         std::string body;
@@ -94,7 +84,13 @@ void AprovarPedidoViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::
 
         std::string idPedido = objeto->getValue<std::string>("idPedido");
         std::string status = objeto->getValue<std::string>("status");
-        
+        std::string motivo;
+        if (objeto->has("motivo")) {
+            motivo = objeto->getValue<std::string>("motivo");
+        } else {
+            motivo = ""; // valor padrão 
+        }
+
         // validar dados vindo do front
         if (idPedido.empty() || status.empty()) {
             response.setStatus(Poco::Net::HTTPResponse::HTTP_BAD_REQUEST);
@@ -103,18 +99,19 @@ void AprovarPedidoViews::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::
             return;
         }
         int idPedidoInt = std::stoi(idPedido);
+
         ModelCompras modelCompras;
-        bool resultado = modelCompras.AprovandoPedido(idPedidoInt, status);
-        if (resultado) {
+        bool resultado = modelCompras.FinalizandoPedido(idPedidoInt, status, motivo);
+        if(resultado){
             response.setStatus(Poco::Net::HTTPResponse::HTTP_CREATED);
             response.setContentType("application/json");
-            response.send() << "{\"message\": \"Pedido com status mudado com sucesso\"}";
+            response.send() << "{\"message\": \"Pedido Finalizado com Sucesso\"}";
         } else {
             response.setStatus(Poco::Net::HTTPResponse::HTTP_INTERNAL_SERVER_ERROR);
             response.setContentType("application/json");
-            response.send() << "{\"error\": \"Erro ao mudar pedido\"}";
+            response.send() << "{\"error\": \"Erro ao finalizar pedido\"}";
         }
-    }catch(const std::exception& e){
+    }catch(std::exception& e){
         response.setStatus(Poco::Net::HTTPResponse::HTTP_INTERNAL_SERVER_ERROR);
         response.setContentType("application/json");
         response.send() << "{\"error\": \"Erro ao aprovar pedidos." << e.what() << "\"}";

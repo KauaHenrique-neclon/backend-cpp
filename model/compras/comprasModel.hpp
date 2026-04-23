@@ -17,6 +17,7 @@ public:
     std::string datapedido;
     std::string status;
     std::string nomeProduto;
+    std::string nomeFornecedor;
 };
 
 
@@ -26,6 +27,8 @@ public:
     bool InserindoPedido(const Pedido& pedido);
     std::vector<Pedido> BuscandoPedidoEnviado();
     bool AprovandoPedido(int idpedido, const std::string& status);
+    std::vector<Pedido> BuscandoPedidosAceitos();
+    bool FinalizandoPedido(int idpedido, const std::string& status, const std::string& motivo = "");
 
 private:
     static pqxx::connection* conn;
