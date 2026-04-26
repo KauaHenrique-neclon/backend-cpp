@@ -56,7 +56,6 @@ void EstoqueViews::Get(Poco::Net::HTTPServerResponse& response){
         std::ostream& ostr = response.send();
         Poco::JSON::Stringifier::stringify(responseObj, ostr);
 
-
     }catch(const std::exception& e){
         response.setStatus(Poco::Net::HTTPResponse::HTTP_INTERNAL_SERVER_ERROR);
         response.setContentType("application/json");

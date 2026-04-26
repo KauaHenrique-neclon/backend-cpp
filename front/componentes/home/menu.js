@@ -3,16 +3,16 @@ import '../../styles/home/Rotas.css'
 import Link from 'next/link'
 
 const MenuLateral = () => {
-  return (
+    return (
       <nav className="navbar">
           <Link href="/home">Home</Link>
-          <Link href="/empresa">Cadastrar</Link>
+          <Link href="/user/cadastrar">Cadastrar</Link>
           <Link href="/login">Login</Link>
           <Link href="/estoque/estoque">Estoque</Link>
-          <Link href="/estoque/estoque">Remover Produto</Link>
+          <Link href="/compras/fornecedores">Fornecedores</Link>
           <Link href="/compras/pedidos">Pedidos</Link>
       </nav>
-  )
+    )
 }
 
 export default MenuLateral;

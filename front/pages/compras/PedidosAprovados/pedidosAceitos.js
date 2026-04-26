@@ -77,17 +77,15 @@ const PedidosAceitos = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                credentials: 'include',
                 body: JSON.stringify(dadosEnviar)
             });
             if (!response.ok) {
-                throw new Error('Erro ao atualizar pedido');
+                throw new Error("Erro ao atualizar pedido");
             }
             alert('Pedido atualizado com sucesso');
             setDadosPedidoEspera((prev) =>
                 prev.filter((pedido) => pedido.id !== id)
             );
-
         } catch (error) {
             alert(error.message);
         }

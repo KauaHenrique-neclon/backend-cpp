@@ -85,8 +85,6 @@ bool ModelCompras::AprovandoPedido(int idpedido, const std::string& status) {
 // pedidos aceitos, buscando pedidos aceitos para mostrar no
 // painel de pedidos para entregar
 std::vector<Pedido> ModelCompras::BuscandoPedidosAceitos(){
-
-    std::cout << "dentro do buscando pedidos aceitos" << std::endl;
     std::vector<Pedido> pedidos;
     try{
         pqxx::work conexao(*conn);

@@ -37,14 +37,6 @@ void PedidosAceitos::Get(Poco::Net::HTTPServerResponse& response) {
 
         Poco::JSON::Array arrayPedidosAceitos;
 
-        std::cout << "=== Pedidos ativos === " << std::endl;
-        for (const auto& pedido : dadosPedidosAceitos) {
-            std::cout << "ID: " << pedido.id
-              << ", Nome: " << pedido.nomeProduto
-              << ", Status: " << pedido.status
-              << ", nome fornecedor: " << pedido.nomeFornecedor
-              << std::endl;
-        }
 
         // preparar o objeto para enviar pro React
         for (const auto& pedido : dadosPedidosAceitos) {
@@ -86,9 +78,13 @@ void PedidosAceitos::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTP
         std::string status = objeto->getValue<std::string>("status");
         std::string motivo;
         if (objeto->has("motivo")) {
-            motivo = objeto->getValue<std::string>("motivo");
+            try {
+                motivo = objeto->getValue<std::string>("motivo");
+            } catch (const std::exception& e) {
+                std::cout << "Erro ao pegar motivo: " << e.what() << std::endl;
+            }
         } else {
-            motivo = ""; // valor padrão 
+            motivo = ""; // valor vazio se não tiver no motivo
         }
 
         // validar dados vindo do front
@@ -99,7 +95,6 @@ void PedidosAceitos::Post(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTP
             return;
         }
         int idPedidoInt = std::stoi(idPedido);
-
         ModelCompras modelCompras;
         bool resultado = modelCompras.FinalizandoPedido(idPedidoInt, status, motivo);
         if(resultado){

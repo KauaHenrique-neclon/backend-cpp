@@ -14,12 +14,12 @@ const Dashboard = () => {
         <span>
             <p>Total de pessoas cadastradas</p>
             <p>400</p>
-            <Link href="user/cadastrar">Ir Tabela</Link>
+            <Link href="user/tabelaUser">Ir Tabela</Link>
         </span>
         <span>
             <p>Total de Pedidos ativos</p>
             <p>30</p>
-            <Link href="/compras/pedidos">Ver Pedidos</Link>
+            <Link href="/compras/aprovarPedido">Ver Pedidos</Link>
         </span>
         <span>
             <p>Total de fornecedores</p>
