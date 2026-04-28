@@ -28,6 +28,12 @@ void DadosHomeViews::Get(Poco::Net::HTTPServerResponse& response) {
         ModelHome modelHome;
         std::vector<DadosDoHome> dadosDashboard = modelHome.buscandoDadosDashboard();
 
+        for (const auto dados : dadosDashboard) {
+            std::cout << "Forne: " << dados.totalFornecedores
+                << "Estoque: " << dados.TotalItemEstoque
+                << "Produto: " << dados.totalProdutos
+                << std::endl;
+        }
         Poco::JSON::Array arrayDadosDashboard;
         Poco::JSON::Object responseObj;
         responseObj.set("dados", arrayDadosDashboard);

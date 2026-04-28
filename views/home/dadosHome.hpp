@@ -13,7 +13,7 @@
 #include <Poco/JSON/Parser.h>
 #include <Poco/JSON/Object.h>
 #include "../../middleware/cookie.hpp"
-#include "../../../model/dados/modelDados.hpp"
+#include "../../model/dados/modelDados.hpp"
 
 
 class DadosHomeViews{

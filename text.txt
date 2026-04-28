@@ -11,6 +11,7 @@ views/compras/pedidos/pedidos.cpp \
 views/compras/pedidos/aprovarPedido.cpp \
 views/compras/pedidos/verPedidosAceitos/pedidosAceitos.cpp \
 views/empresa/financas/contabilidade/contabilidade.cpp \
+views/home/dadosHome.cpp \
 session/sessao.cpp middleware/cookie.cpp \
 model/cadastrar/cadastrarModel.cpp \
 model/empresa/cadastrarFunc/cadastrarFunc.cpp \
@@ -19,6 +20,7 @@ model/empresa/modelPonto/modelPonto.cpp \
 model/estoque/estoqueModel.cpp \
 model/login/loginModel.cpp \
 model/compras/comprasModel.cpp \
+model/dados/modelDados.cpp \
 -std=gnu++20 -I. \
 -lPocoNet -lPocoUtil -lPocoFoundation -lPocoJSON \
 -lpqxx -lpq \

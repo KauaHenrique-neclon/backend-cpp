@@ -16,7 +16,7 @@ const tabelaUser = () => {
                     credentials: 'include',
                 })
                 if(!response.ok){
-                     throw new Error('Erro ao buscar dados de usuarios');
+                    throw new Error('Erro ao buscar dados de usuarios');
                 }
                 const data = await response.json();
                 setDadosUsuarios(data.dados || []);

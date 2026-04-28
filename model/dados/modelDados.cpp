@@ -25,8 +25,8 @@ std::vector<DadosDoHome> ModelHome::buscandoDadosDashboard(){
             SELECT
                 (SELECT COUNT(*) FROM estoque) AS estoque_count,
                 (SELECT COUNT(*) FROM fornecedores) AS fornecedores_count,
-                (SELECT COUNT(*) FROM pedidos WHERE status = 'ENVIADO') AS pedidoAtivo_count,
-                (SELECT COUNT(*) FROM produto) AS produtos_count,
+                (SELECT COUNT(*) FROM pedido WHERE status = 'ENVIADO') AS pedidoAtivo_count,
+                (SELECT COUNT(*) FROM produtos) AS produtos_count,
                 (SELECT COUNT(*) FROM usuarios) AS usuarios_count
         )";
         pqxx::row row = conexao.exec1(countTable);
@@ -39,7 +39,7 @@ std::vector<DadosDoHome> ModelHome::buscandoDadosDashboard(){
         dadosHome.push_back(dados);
         conexao.commit();
     }catch(const std::exception& e){
-        std::cerr << "Erro ao buscar dados do home" << std::endl;
+        std::cerr << "Erro ao buscar dados do home" << e.what() << std::endl;
     }
     return dadosHome;
 }

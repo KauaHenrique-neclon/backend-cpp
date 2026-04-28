@@ -8,6 +8,7 @@
 #include "empresa/empresaRoutes.hpp"
 #include "compras/comprasRoutes.hpp"
 #include "cadastro/cadastroRoutes.hpp"
+#include "home/homeRoutes.hpp"
 
 // importando o Middleware
 #include "../middleware/CORSHandler.hpp"
@@ -24,6 +25,7 @@ public:
         registerEmpresaRoutes(routes);
         registerComprasRoutes(routes);
         registerCadastroRoutes(routes);
+        registerHomeRoutes(routes);
     }
 
     HTTPRequestHandler* createRequestHandler(
