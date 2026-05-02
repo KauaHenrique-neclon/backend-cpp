@@ -27,18 +27,29 @@ void DadosHomeViews::Get(Poco::Net::HTTPServerResponse& response) {
         response.setContentType("application/json");
         ModelHome modelHome;
         std::vector<DadosDoHome> dadosDashboard = modelHome.buscandoDadosDashboard();
+        Poco::JSON::Array arrayDadosDashboard;
 
-        for (const auto dados : dadosDashboard) {
+        /*for (const auto dados : dadosDashboard) {
             std::cout << "Forne: " << dados.totalFornecedores
                 << "Estoque: " << dados.TotalItemEstoque
                 << "Produto: " << dados.totalProdutos
                 << std::endl;
+        }*/
+        for (const auto& dados : dadosDashboard) {
+            Poco::JSON::Object obj;
+            obj.set("totalFornecedores", dados.totalFornecedores);
+            obj.set("totalItemEstoque", dados.TotalItemEstoque);
+            obj.set("totalProdutos", dados.totalProdutos);
+            obj.set("totalPessoasCadastrada", dados.TotalPessoasCadastrada);
+            obj.set("totalPedidosAtivos", dados.totalPedidosAtivos);
+            arrayDadosDashboard.add(obj);
         }
-        Poco::JSON::Array arrayDadosDashboard;
+
         Poco::JSON::Object responseObj;
         responseObj.set("dados", arrayDadosDashboard);
         std::ostream& ostr = response.send();
         Poco::JSON::Stringifier::stringify(responseObj, ostr);
+
     }catch(const std::exception& e){
         response.setStatus(Poco::Net::HTTPResponse::HTTP_INTERNAL_SERVER_ERROR);
         response.setContentType("application/json");
